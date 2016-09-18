@@ -6,6 +6,15 @@
 " Also includes different namespaces for inside and outside of math mode.
 " Last Edit: Sept 17, 2016
  
+
+" TODO:
+" " Use VIM dictionaries
+" " Add . $ functions (perhaps as . and ')
+" " " Transform them after jumping out of math mode
+" " Add undo and redo keywords
+" " Add del keyword
+" " Improve command to change to \[ \]
+" " Add search keywords?
  
 " Only map these functions if inside a tex file
 " <C-r>=[function]() means to call a function and type what it returns as
