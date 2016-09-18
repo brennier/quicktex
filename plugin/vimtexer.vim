@@ -60,15 +60,19 @@ endfunction
 " Function for jumping around
 " This function is only used in ExpandWord
 function! JumpFunc()
-    " If there's a <++> to jump to in the line, then jump to it
-	if getline('.') =~ '<++>'
-        return "\<Right>\<BS>\<ESC>/<++>\<CR>cw"
+    if &ft == 'math'
+        " If there's a <++> to jump to in the line, then jump to it
+	    if getline('.') =~ '<++>'
+            return "\<Right>\<BS>\<ESC>/<++>\<CR>cw"
+        else
+        " If there is no <++> on the current line, then exit math mode and jump to
+        " right after \)
+            set filetype=tex
+            execute "normal! / \\\\)\<CR>"
+            return "\<BS>\<Right>\<Right>\<Right> "
+        endif
     else
-    " If there is no <++> on the current line, then exit math mode and jump to
-    " right after \)
-        set filetype=tex
-        execute "normal! / \\\\)\<CR>"
-        return "\<BS>\<Right>\<Right>\<Right> "
+        return "  "
     endif
 endfunction
 
