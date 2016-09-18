@@ -23,6 +23,7 @@
 " " Fix mod keyword
 " " sq = squared or \mathbb{Q} ?
 " " Fix JumpFunc for multiline math mode
+" " Remove last space when JumpFuncing out of mathmode
 " }}}
  
 " Special Key Assignment {{{
