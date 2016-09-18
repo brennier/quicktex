@@ -357,7 +357,7 @@ let s:tex_siga = '\(\sigma\)-algebra '
 let s:tex_gset = '\(G\)-set '
 
 "---------- Other Commands ----------
-let s:tex_itm   = '\\item '
+let s:tex_itm   = '\item '
 let s:tex_todo  = '\textcolor{red}{TODO: <+++>} <++>'
 let s:tex_arrow = '\arrow[ <+++> ] <++>'
 let s:tex_sect  = '\section*{ <+++> }'
