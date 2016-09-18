@@ -306,6 +306,9 @@ let s:math_vec  = "\<ESC>F a\\vec{\<ESC>f i} "
 let s:math_dim = '\dim '
 let s:math_det = '\det '
 let s:math_com = "\<BS>^c "
+let s:math_matrix = "\<CR>\\begin{bmatrix}\<CR><+++>\<CR>\\end{bmatrix}\<CR><++>"
+let s:math_vdots = '\vdots & '
+let s:math_ddots = '\ddots & '
 
 "---------- Constants ----------
 let s:math_aleph = '\aleph '
