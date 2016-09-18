@@ -2,7 +2,7 @@
 " Author: Bennett Rennier <barennier AT gmail.com>
 " Website: brennier.com
 " Description: Used to map keywords into other words, functions, keypresses,
-" etc. while in insert mode. The main purpose is for writting LaTeX faster.
+" etc. while in insert mode. The main purpose is for writing LaTeX faster.
 " Also includes different namespaces for inside and outside of math mode.
  
  
