@@ -190,117 +190,117 @@ let s:math_Psi = '\Psi '
 
 "---------- Set Theory ----------
 
-let s:math_sr = "\\mathbb{R} "
-let s:math_sc = "\\mathbb{C} "
-let s:math_Q = "\\mathbb{Q} "
-let s:math_sn = "\\mathbb{N} "
-let s:math_sz = "\\mathbb{Z} "
-let s:math_subs = "\\subseteq "
-let s:math_in = "\\in "
-let s:math_nin = "\\not\\in "
-let s:math_cup = "\\cup "
-let s:math_cap = "\\cap "
-let s:math_union = "\\cup "
-let s:math_sect = "\\cap "
-let s:math_smin = "\\setminus "
-let s:math_set = "\\{ <+++> \\} <++>"
-let s:math_card = "\\card{ <+++> } <++>"
-let s:math_empty = "\\varnothing "
-let s:math_pair = "( <+++> , <++> ) <++>"
-let s:math_dots = "\\dots "
+let s:math_sr = '\mathbb{R} '
+let s:math_sc = '\mathbb{C} '
+let s:math_Q = '\mathbb{Q} '
+let s:math_sn = '\mathbb{N} '
+let s:math_sz = '\mathbb{Z} '
+let s:math_subs = '\subseteq '
+let s:math_in = '\in '
+let s:math_nin = '\not\in '
+let s:math_cup = '\cup '
+let s:math_cap = '\cap '
+let s:math_union = '\cup '
+let s:math_sect = '\cap '
+let s:math_smin = '\setminus '
+let s:math_set = '\{ <+++> \} <++>'
+let s:math_card = '\card{ <+++> } <++>'
+let s:math_empty = '\varnothing '
+let s:math_pair = '( <+++> , <++> ) <++>'
+let s:math_dots = '\dots '
 
 "---------- Logic ----------
 
-let s:math_st = "\\divides "
-let s:math_exists = "\\exists "
-let s:math_nexists = "\\nexists "
-let s:math_forall = "\\forall "
-let s:math_implies = "\\implies "
-let s:math_iff = "\\iff "
-let s:math_and = "\\land "
-let s:math_or = "\\lor "
+let s:math_st = '\divides '
+let s:math_exists = '\exists '
+let s:math_nexists = '\nexists '
+let s:math_forall = '\forall '
+let s:math_implies = '\implies '
+let s:math_iff = '\iff '
+let s:math_and = '\land '
+let s:math_or = '\lor '
 
 "---------- Relations ----------
 
-let s:math_lt = "< "
-let s:math_gt = "> "
-let s:math_leq = "\\leq "
-let s:math_geq = "\\geq "
-let s:math_eq = "= "
-let s:math_nl = "\\nless "
-let s:math_ng = "\\ngtr "
-let s:math_nleq = "\\nleq "
-let s:math_ngeq = "\\ngeq "
-let s:math_neq = "\\neq "
-let s:math_neg = "\\neg "
-let s:math_uarrow = "\\uparrow "
-let s:math_darrow = "\\downarrow "
+let s:math_lt = '< '
+let s:math_gt = '> '
+let s:math_leq = '\leq '
+let s:math_geq = '\geq '
+let s:math_eq = '= '
+let s:math_nl = '\nless '
+let s:math_ng = '\ngtr '
+let s:math_nleq = '\nleq '
+let s:math_ngeq = '\ngeq '
+let s:math_neq = '\neq '
+let s:math_neg = '\neg '
+let s:math_uarrow = '\uparrow '
+let s:math_darrow = '\downarrow '
 
 "---------- Operations ----------
 
-let s:math_add = "+ "
-let s:math_divides = "\\divides "
-let s:math_min = "- "
-let s:math_frac = "\\frac{ <+++> }{ <++> } <++>"
-let s:math_recip = "\\frac{ 1 }{ <+++> } <++>"
-let s:math_dot = "\\cdot "
-let s:math_mult = "* "
-let s:math_exp = "\<Left>^"
-let s:math_pow = "\<Left>^"
-let s:math_sq = "\<Left>^2 "
+let s:math_add = '+ '
+let s:math_divides = '\divides '
+let s:math_min = '- '
+let s:math_frac = '\frac{ <+++> }{ <++> } <++>'
+let s:math_recip = '\frac{ 1 }{ <+++> } <++>'
+let s:math_dot = '\cdot '
+let s:math_mult = '* '
+let s:math_exp = "\<BS>^"
+let s:math_pow = "\<BS>^"
+let s:math_sq = "\<BS>^2 "
 let s:math_inv = "\<BS>^{-1} "
-let s:math_cross = "\\times "
+let s:math_cross = '\times '
 
 "---------- Delimiters ----------
 
-let s:math_para = "\\left( <+++> \\right) <++>"
-let s:math_sb = "\\left[ <+++> \\right] <++>"
-let s:math_brac = "\\left\\{ <+++> \\right\\} <++>"
-let s:math_group = "{ <+++> } <++>"
-let s:math_angle = "\\angle{ <+++> } <++>"
-let s:math_abs = "\\abs{ <+++> } <++>"
+let s:math_para = '\left( <+++> \right) <++>'
+let s:math_sb = '\left[ <+++> \right] <++>'
+let s:math_brac = '\left\{ <+++> \right\} <++>'
+let s:math_group = '{ <+++> } <++>'
+let s:math_angle = '\angle{ <+++> } <++>'
+let s:math_abs = '\abs{ <+++> } <++>'
 
 "---------- Group Theory ----------
 
-let s:math_iso = "\\sim "
-let s:math_niso = "\\nsim "
-let s:math_subg = "\\leq "
-let s:math_nsubg = "\\trianglelefteq "
+let s:math_iso = '\sim '
+let s:math_niso = '\nsim '
+let s:math_subg = '\leq '
+let s:math_nsubg = '\trianglelefteq '
 let s:math_mod = '/ '
 let s:math_aut = '\aut '
 
 "---------- Functions ----------
 
-let s:math_to = "\\to "
-let s:math_comp = "\\circ "
-let s:math_of = "\\left( <+++> \\right) <++>"
-let s:math_sin = "\\sin{ <+++> } <++>"
-let s:math_cos = "\\cos{ <+++> } <++>"
-let s:math_tan = "\\tan{ <+++> } <++>"
-let s:math_ln = "\\ln{ <+++> } <++>"
-let s:math_log = "\\log{ <+++> } <++>"
-let s:math_dfunc = "<+++> : <++> \\to <++>"
-let s:math_sqrt = "\\sqrt{ <+++> } <++>"
+let s:math_to = '\to '
+let s:math_comp = '\circ '
+let s:math_of = '\left( <+++> \right) <++>'
+let s:math_sin = '\sin{ <+++> } <++>'
+let s:math_cos = '\cos{ <+++> } <++>'
+let s:math_tan = '\tan{ <+++> } <++>'
+let s:math_ln = '\ln{ <+++> } <++>'
+let s:math_log = '\log{ <+++> } <++>'
+let s:math_dfunc = '<+++> : <++> \to <++>'
+let s:math_sqrt = '\sqrt{ <+++> } <++>'
 let s:math_img = '\img '
 let s:math_ker = '\ker '
-let s:math_case = "\\begin{cases} <+++> \\end{cases} <++>"
+let s:math_case = '\begin{cases} <+++> \end{cases} <++>'
 
 "---------- LaTeX commands ----------
 
 let s:math_big = "è\<ESC>/\\\\)\<CR>lr]?\\\\(\<CR>lr[llcw"
 let s:math_sub = "\<BS>_"
 let s:math_ud = "\<BS>_{ <+++> }^{ <++> } "
-let s:math_text = "\\text{ <+++> } <++>"
+let s:math_text = '\text{ <+++> } <++>'
 
 "---------- Fancy Variables ----------
 
-let s:math_fa = "\\mathcal{A} "
-let s:math_fn = "\\mathcal{N} "
-let s:math_fp = "\\mathcal{P} "
-let s:math_fc = "\\mathcal{C} "
-let s:math_fm = "\\mathcal{M} "
-let s:math_ff = "\\mathcal{F} "
-let s:math_fb = "\\mathcal{B} "
+let s:math_fa = '\mathcal{A} '
+let s:math_fn = '\mathcal{N} '
+let s:math_fp = '\mathcal{P} '
+let s:math_fc = '\mathcal{C} '
+let s:math_fm = '\mathcal{M} '
+let s:math_ff = '\mathcal{F} '
+let s:math_fb = '\mathcal{B} '
 
 "---------- Encapsulating keywords ----------
 
@@ -327,15 +327,15 @@ let s:math_four = '4 '
 
 "---------- Operators ----------
 
-let s:math_int = "\\int^{ <+++> } <++>"
-let s:math_dev = "\\frac{d}{d<+++> } <++>"
-let s:math_lim = "\\lim_{ <+++> } <++>"
-let s:math_sum = "\\sum_{ <+++> }^{ <++> } <++>"
-let s:math_prd = "\\prod_{ <+++> }^{ <++> } <++>"
-let s:math_limsup = "\\limsup "
-let s:math_liminf = "\\liminf "
-let s:math_sup = "\\sup "
-" let s:math_inf = "\\inf "
+let s:math_int = '\int^{ <+++> } <++>'
+let s:math_dev = '\frac{d}{d<+++> } <++>'
+let s:math_lim = '\lim_{ <+++> } <++>'
+let s:math_sum = '\sum_{ <+++> }^{ <++> } <++>'
+let s:math_prd = '\prod_{ <+++> }^{ <++> } <++>'
+let s:math_limsup = '\limsup '
+let s:math_liminf = '\liminf '
+let s:math_sup = '\sup '
+" let s:math_inf = '\inf '
 
 " }}}
 
@@ -353,20 +353,20 @@ let s:tex_lst = "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}\<C
 let s:tex_cd = "$$\<CR>\\begin{tikzcd}\<CR><+++>\<CR>\\end{tikzcd}\<CR>$$\<CR><++>"
 
 "---------- Simple Aliases ----------
-let s:tex_st = "such that "
-let s:tex_homo = "homomorphism "
-let s:tex_iso = "isomorphism "
-let s:tex_iff = "if and only if "
-let s:tex_wlog = "without loss of generality "
-let s:tex_Wlog = "Without loss of generality, "
-let s:tex_siga = "\\(\\sigma\\)-algebra "
-let s:tex_gset = "\\(G\\)-set "
+let s:tex_st = 'such that '
+let s:tex_homo = 'homomorphism '
+let s:tex_iso = 'isomorphism '
+let s:tex_iff = 'if and only if '
+let s:tex_wlog = 'without loss of generality '
+let s:tex_Wlog = 'Without loss of generality, '
+let s:tex_siga = '\(\sigma\)-algebra '
+let s:tex_gset = '\(G\)-set '
 
 "---------- Other Commands ----------
-let s:tex_itm = "\\item "
-let s:tex_todo = "\\textcolor{red}{TODO: <+++>} <++>"
-let s:tex_arrow = "\\arrow[ <+++> ] <++>"
-let s:tex_sect = "\\section*{ <+++> }"
+let s:tex_itm = '\\item '
+let s:tex_todo = '\textcolor{red}{TODO: <+++>} <++>'
+let s:tex_arrow = '\arrow[ <+++> ] <++>'
+let s:tex_sect = '\section*{ <+++> }'
 let s:tex_qt = " ``<++>'' <++>"
 
 " }}}
