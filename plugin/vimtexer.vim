@@ -1,3 +1,11 @@
+" File: vimtexer.vim
+" Author: Bennett Rennier <barennier AT gmail.com>
+" Website: brennier.com
+" Description: Used to map keywords into other words, functions, keypresses,
+" etc. while in insert mode. The main purpose is for writting LaTeX faster.
+" Also includes different namespaces for inside and outside of math mode.
+ 
+ 
 " Only map these functions if inside a tex file
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
