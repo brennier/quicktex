@@ -131,7 +131,6 @@ endfunction
 " Math Mode Keywords {{{
 
 "---------- Lowercase Greek Letters ----------
-
 let s:math_alpha   = '\alpha '
 let s:math_beta    = '\beta '
 let s:math_gamma   = '\gamma '
@@ -163,7 +162,6 @@ let s:math_chi     = '\chi '
 let s:math_psi     = '\psi '
 
 "---------- Uppercase Greek Letters ----------
-
 let s:math_Alpha   = '\Alpha '
 let s:math_Beta    = '\Beta '
 let s:math_Gamma   = '\Gamma '
@@ -189,7 +187,6 @@ let s:math_Chi     = '\Chi '
 let s:math_Psi     = '\Psi '
 
 "---------- Set Theory ----------
-
 let s:math_sr    = '\mathbb{R} '
 let s:math_sc    = '\mathbb{C} '
 let s:math_Q     = '\mathbb{Q} '
@@ -210,7 +207,6 @@ let s:math_pair  = '( <+++> , <++> ) <++>'
 let s:math_dots  = '\dots '
 
 "---------- Logic ----------
-
 let s:math_st      = '\st '
 let s:math_exists  = '\exists '
 let s:math_nexists = '\nexists '
@@ -221,7 +217,6 @@ let s:math_and     = '\land '
 let s:math_or      = '\lor '
 
 "---------- Relations ----------
-
 let s:math_lt      = '< '
 let s:math_gt      = '> '
 let s:math_leq     = '\leq '
@@ -238,7 +233,6 @@ let s:math_darrow  = '\downarrow '
 let s:math_divides = '\divides '
 
 "---------- Operations ----------
-
 let s:math_add   = '+ '
 let s:math_min   = '- '
 let s:math_frac  = '\frac{ <+++> }{ <++> } <++>'
@@ -252,7 +246,6 @@ let s:math_inv   = "\<BS>^{-1} "
 let s:math_cross = '\times '
 
 "---------- Delimiters ----------
-
 let s:math_para  = '\left( <+++> \right) <++>'
 let s:math_sb    = '\left[ <+++> \right] <++>'
 let s:math_brac  = '\left\{ <+++> \right\} <++>'
@@ -261,7 +254,6 @@ let s:math_angle = '\angle{ <+++> } <++>'
 let s:math_abs   = '\abs{ <+++> } <++>'
 
 "---------- Group Theory ----------
-
 let s:math_iso   = '\sim '
 let s:math_niso  = '\nsim '
 let s:math_subg  = '\leq '
@@ -270,7 +262,6 @@ let s:math_mod   = '/ '
 let s:math_aut   = '\aut '
 
 "---------- Functions ----------
-
 let s:math_to    = '\to '
 let s:math_comp  = '\circ '
 let s:math_of    = '\left( <+++> \right) <++>'
@@ -286,14 +277,12 @@ let s:math_ker   = '\ker '
 let s:math_case  = '\begin{cases} <+++> \end{cases} <++>'
 
 "---------- LaTeX commands ----------
-
 let s:math_big  = "è\<ESC>/\\\\)\<CR>lr]?\\\\(\<CR>lr[llcw"
 let s:math_sub  = "\<BS>_"
 let s:math_ud   = "\<BS>_{ <+++> }^{ <++> } "
 let s:math_text = '\text{ <+++> } <++>'
 
 "---------- Fancy Variables ----------
-
 let s:math_fa = '\mathcal{A} '
 let s:math_fn = '\mathcal{N} '
 let s:math_fp = '\mathcal{P} '
@@ -303,20 +292,17 @@ let s:math_ff = '\mathcal{F} '
 let s:math_fb = '\mathcal{B} '
 
 "---------- Encapsulating keywords ----------
-
 let s:math_bar  = "\<ESC>F a\\bar{\<ESC>f i} "
 let s:math_hat  = "\<ESC>F a\\hat{\<ESC>f i} "
 let s:math_star = "\<ESC>F a\\star{\<ESC>f i} "
 let s:math_vec  = "\<ESC>F a\\vec{\<ESC>f i} "
 
 "---------- Linear Algebra ----------
-
 let s:math_dim = '\dim '
 let s:math_det = '\det '
 let s:math_com = "\<BS>^c "
 
 "---------- Constants ----------
-
 let s:math_aleph = '\aleph '
 let s:math_inf   = '\infty '
 let s:math_one   = '1 '
@@ -326,7 +312,6 @@ let s:math_three = '3 '
 let s:math_four  = '4 '
 
 "---------- Operators ----------
-
 let s:math_int    = '\int^{ <+++> } <++>'
 let s:math_dev    = '\frac{d}{d<+++> } <++>'
 let s:math_lim    = '\lim_{ <+++> } <++>'
