@@ -4,6 +4,7 @@
 " Description: Used to map keywords into other words, functions, keypresses,
 " etc. while in insert mode. The main purpose is for writing LaTeX faster.
 " Also includes different namespaces for inside and outside of math mode.
+" Last Edit: Sept 17, 2016
  
  
 " Only map these functions if inside a tex file
