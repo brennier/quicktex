@@ -333,13 +333,13 @@ let s:math_sup    = '\sup '
 " LaTeX Mode Keywords {{{
 
 "---------- Environments ----------
-let s:tex_exe = "\\begin{exercise}{ <+++> }\<CR><++>\<CR>\\end{exercise}\<CR><++>"
-let s:tex_prf = "\\begin{proof}\<CR><+++>\<CR>\\end{proof}\<CR><++>"
-let s:tex_thm = "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}\<CR><++>"
-let s:tex_lem = "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}\<CR><++>"
-let s:tex_que = "\\begin{question}\<CR><+++>\<CR>\\end{question}\<CR><++>"
-let s:tex_cor = "\\begin{corollary}\<CR><+++>\<CR>\\end{corollary}\<CR><++>"
-let s:tex_lst = "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}\<CR><++>"
+let s:tex_exe = "\\begin{exercise}{ <+++> }\<CR><++>\<CR>\\end{exercise}"
+let s:tex_prf = "\\begin{proof}\<CR><+++>\<CR>\\end{proof}"
+let s:tex_thm = "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}"
+let s:tex_lem = "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}"
+let s:tex_que = "\\begin{question}\<CR><+++>\<CR>\\end{question}"
+let s:tex_cor = "\\begin{corollary}\<CR><+++>\<CR>\\end{corollary}"
+let s:tex_lst = "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}"
 let s:tex_cd  = "$$\<CR>\\begin{tikzcd}\<CR><+++>\<CR>\\end{tikzcd}\<CR>$$\<CR><++>"
 
 "---------- Simple Aliases ----------
