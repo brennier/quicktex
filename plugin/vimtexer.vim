@@ -23,7 +23,6 @@
 " " Fix mod keyword
 " " sq = squared or \mathbb{Q} ?
 " " Fix JumpFunc for multiline math mode
-" " Remove last space when JumpFuncing out of mathmode
 " }}}
  
 " Special Key Assignment {{{
@@ -70,7 +69,7 @@ function! JumpFunc()
         " If there is no <++> on the current line, then exit math mode and jump to
         " right after \)
             set filetype=tex
-            execute "normal! /\\\\)\<CR>"
+            execute "normal! / \\\\)\<CR>x"
             return "\<Right>\<Right> "
         endif
     else
