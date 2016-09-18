@@ -354,6 +354,7 @@ let s:tex_todo  = '\textcolor{red}{TODO: <+++>} <++>'
 let s:tex_arrow = '\arrow[ <+++> ] <++>'
 let s:tex_sect  = '\section*{ <+++> }'
 let s:tex_qt    = " ``<++>'' <++>"
+let s:tex_gtg   = '\textcolor{purple}{ <+++> }'
 
 " }}}
 " }}}
