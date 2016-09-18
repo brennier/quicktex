@@ -69,8 +69,8 @@ function! JumpFunc()
         " If there is no <++> on the current line, then exit math mode and jump to
         " right after \)
             set filetype=tex
-            execute "normal! / \\\\)\<CR>"
-            return "\<BS>\<Right>\<Right>\<Right> "
+            execute "normal! /\\\\)\<CR>"
+            return "\<Right>\<Right> "
         endif
     else
         return "  "
