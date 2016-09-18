@@ -22,6 +22,7 @@
 " " Map infimum
 " " Fix mod keyword
 " " sq = squared or \mathbb{Q} ?
+" " Fix JumpFunc for multiline math mode
 " }}}
  
 " Special Key Assignment {{{
