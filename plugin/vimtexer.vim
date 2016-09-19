@@ -19,6 +19,7 @@
 " " Visually Select when JumpFuncing
 " " Map infimum
 " " Fix JumpFunc for multiline math mode
+" " Fix leading space after exiting math mode
 " }}}
 
 " Special Key Assignment {{{
