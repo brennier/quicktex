@@ -22,6 +22,7 @@
 " " Fix mod keyword
 " " sq = squared or \mathbb{Q} ?
 " " Fix JumpFunc for multiline math mode
+" " Fix trailing whitespace and indentation
 " }}}
  
 " Special Key Assignment {{{
