@@ -74,7 +74,7 @@ function! JumpFunc()
             return "\<Right>\<Right> "
         endif
     else
-        return "  "
+        return "\<Right>\<BS>\<ESC>/<++>\<CR>cf>"
     endif
 endfunction
 
