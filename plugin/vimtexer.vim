@@ -18,7 +18,6 @@
 " " Add search keywords?
 " " Visually Select when JumpFuncing
 " " Map infimum
-" " Fix mod keyword
 " " Fix JumpFunc for multiline math mode
 " }}}
 
