@@ -4,12 +4,11 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Sept 17, 2016
+" Last Edit: Sept 19, 2016
 
 
 " TODO: {{{
 " " Only load relevent dictionaries
-" " Allowing the setting of custom dictionaries
 " " Create an easy way to reenter math mode namespace
 " " Add . $ functions (perhaps as . and ')
 " " " Transform them after jumping out of math mode
@@ -87,9 +86,9 @@ function! ExpandWord()
     endif
 
     " Check if the dictionary exists for the given filetype.
-    if exists('s:vimtexer_'.&ft)
+    if exists('g:vimtexer_'.&ft)
         " If it exists, set that dictionary to the variable 'dictionary'
-        execute "let dictionary = s:vimtexer_".&ft
+        execute "let dictionary = g:vimtexer_".&ft
     else
         " If the dictionary doesn't exist, remember, we moved left and are over
         " the last character of the word, so move right and put the original space
@@ -141,7 +140,8 @@ endfunction
 
 " Math Mode Keywords {{{
 
-let s:vimtexer_math = {
+if !exists('g:vimtexer_math')
+let g:vimtexer_math = {
 \'Section: Lowercase Greek Letters' : 'COMMENT',
     \'alpha'   : '\alpha ',
     \'beta'    : '\beta ',
@@ -334,13 +334,15 @@ let s:vimtexer_math = {
     \'liminf' : '\liminf ',
     \'sup'    : '\sup ',
 \}
+endif
 
 " }}}
 
 
 " LaTeX Mode Keywords {{{
 
-let s:vimtexer_tex = {
+if !exists('g:vimtexer_tex')
+let g:vimtexer_tex = {
 \'Section: Environments' : 'COMMENT',
     \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}",
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
@@ -369,6 +371,7 @@ let s:vimtexer_tex = {
     \'qt'    : " ``<++>'' <++>",
     \'gtg'   : '\textcolor{purple}{ <+++> }',
 \}
+endif
 
 " }}}
 " }}}
