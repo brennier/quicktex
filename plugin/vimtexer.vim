@@ -8,7 +8,8 @@
  
 
 " TODO: {{{
-" " Use VIM dictionaries
+" " Only load relevent dictionaries
+" " Allowing the setting of custom dictionaries
 " " Create an easy way to reenter math mode namespace
 " " Add . $ functions (perhaps as . and ')
 " " " Transform them after jumping out of math mode
@@ -82,23 +83,27 @@ function! ExpandWord()
 	normal! h
 	let word = expand('<cword>')
 
-	let rhs = ''
-
     " If the last character was a space, then JumpFunc
     " It's -1 instead of -2 because we already moved to the left one space
     if getline('.')[col(".")-1] == " "
         return JumpFunc()
     endif
     
-    " Check to see if there is a mapping for the word under that filetype
-    if exists('s:'.&ft.'_'.word)
-            exe 'let rhs = s:'.&ft.'_'.word
-    " If there isn't, check if there's a general mapping for that word
-    elseif exists('s:_'.word)
-		    exe 'let rhs = s:_'.word
+    " Check if the dictionary exists for the given filetype.
+    if exists('s:vimtexer_'.&ft)
+        " If it exists, set that dictionary to the variable 'dictionary'
+        execute "let dictionary = s:vimtexer_".&ft
+    else
+        " If the dictionary doesn't exist, remember, we moved left and are over
+        " the last character of the word, so move right and put the original space
+        return "\<Right> "
     endif
+    
+    " Get the result of the keyword. If the keyword doesn't exist in the
+    " dictonary, return the empty string ''
+    let rhs = get(dictionary, word,'')
 
-    " If we found a match...
+    " If we found a match in the dictionary
     if rhs != ''
         let jumpBack = ""
     	" If the RHS contains the identifier "<+++>", then your cursor will be
@@ -114,8 +119,8 @@ function! ExpandWord()
         " out the right hand side then jump back to "<+++>"
     	return hack."ciw".rhs.jumpBack
 	else
-        " Remember, we moved left and are over the last character of the word,
-        " so f there is no match, then move right and put the original space character. 
+        " If the dictionary doesn't exist, remember, we moved left and are over
+        " the last character of the word, so move right and put the original space
     	return "\<Right> "
     endif
 endfunction
@@ -123,246 +128,249 @@ endfunction
 
 " Keywords {{{
 
-" Keyword mappings are of the following form. Replace what's in the []'s
-" let s:[filetype]_[keyword] = "[result]"
-" OR as the following
-" let s:[filetype]_[keyword] = '[result]'
+" Keyword mappings are simply a dictionary. Dictionaries are of the form
+" "vimtexer_" and then the filetype. The result of a keyword is either a
+" literal string or a double quoted string, depending on what you want.
 "
-" In the first form, \'s need to be escape (i.e. "\\"), but you can use
-" nonalphanumeric keypresses, like "\<CR>" for Enter or "\<BS>" for backspace
-" or even "\<Right>" and "\<Left>" for arrow keys
-" 
-" In the second form, it's a literal substitution
+" In a literal string, the result is just a simple literal substitution
+"
+" In a double quoted string, \'s need to be escape (i.e. "\\"), however, you
+" can use nonalphanumberical keypresses, like "\<CR>", "\<BS>", or "\<Right>"
+"
+" Unfortunately, comments are not allowed inside multiline vim dictionaries.
+" Thus, sections and comments must be included as entries themselves. Make
+" sure that the comment more than one word, that way it could never be called
+" by the ExpandWord function
 
 " Math Mode Keywords {{{
 
-"---------- Lowercase Greek Letters ----------
-let s:math_alpha   = '\alpha '
-let s:math_beta    = '\beta '
-let s:math_gamma   = '\gamma '
-let s:math_delta   = '\delta '
-let s:math_epsilon = '\epsilon '
-" typing 'ge' is faster than typing 'epsilon' for me
-let s:math_ge      = '\varepsilon '
-let s:math_zeta    = '\zeta '
-let s:math_eta     = '\eta '
-let s:math_theta   = '\theta '
-let s:math_iota    = '\iota '
-let s:math_kappa   = '\kappa '
-let s:math_lambda  = '\lambda '
-" typing 'gl' is faster than typing 'lambda' for me
-let s:math_gl      = '\lambda '
-let s:math_mu      = '\mu '
-let s:math_nu      = '\nu '
-let s:math_xi      = '\xi '
-let s:math_omega   = '\omega '
-let s:math_pi      = '\pi '
-let s:math_rho     = '\rho '
-let s:math_sigma   = '\sigma '
-let s:math_tau     = '\tau '
-let s:math_upsilon = '\upsilon '
-" typing 'gu' is faster than typing 'upsilon' for me
-let s:math_gu      = '\upsilon '
-let s:math_phi     = '\varphi '
-let s:math_chi     = '\chi '
-let s:math_psi     = '\psi '
-
-"---------- Uppercase Greek Letters ----------
-let s:math_Alpha   = '\Alpha '
-let s:math_Beta    = '\Beta '
-let s:math_Gamma   = '\Gamma '
-let s:math_Delta   = '\Delta '
-let s:math_Epsilon = '\Epsilon '
-let s:math_Zeta    = '\Zeta '
-let s:math_Eta     = '\Eta '
-let s:math_Theta   = '\Theta '
-let s:math_Iota    = '\Iota '
-let s:math_Kappa   = '\Kappa '
-let s:math_Lambda  = '\Lambda '
-let s:math_Mu      = '\Mu '
-let s:math_Nu      = '\Nu '
-let s:math_Xi      = '\Xi '
-let s:math_Omega   = '\Omega '
-let s:math_Pi      = '\Pi '
-let s:math_Rho     = '\Rho '
-let s:math_Sigma   = '\Sigma '
-let s:math_Tau     = '\Tau '
-let s:math_Upsilon = '\Upsilon '
-let s:math_Phi     = '\Phi '
-let s:math_Chi     = '\Chi '
-let s:math_Psi     = '\Psi '
-
-"---------- Set Theory ----------
-let s:math_sr    = '\mathbb{R} '
-let s:math_sc    = '\mathbb{C} '
-let s:math_Q     = '\mathbb{Q} '
-let s:math_sn    = '\mathbb{N} '
-let s:math_sz    = '\mathbb{Z} '
-let s:math_subs  = '\subseteq '
-let s:math_in    = '\in '
-let s:math_nin   = '\not\in '
-let s:math_cup   = '\cup '
-let s:math_cap   = '\cap '
-let s:math_union = '\cup '
-let s:math_sect  = '\cap '
-let s:math_smin  = '\setminus '
-let s:math_set   = '\{ <+++> \} <++>'
-let s:math_card  = '\card{ <+++> } <++>'
-let s:math_empty = '\varnothing '
-let s:math_pair  = '( <+++> , <++> ) <++>'
-let s:math_dots  = '\dots '
-
-"---------- Logic ----------
-let s:math_st      = '\st '
-let s:math_exists  = '\exists '
-let s:math_nexists = '\nexists '
-let s:math_forall  = '\forall '
-let s:math_implies = '\implies '
-let s:math_iff     = '\iff '
-let s:math_and     = '\land '
-let s:math_or      = '\lor '
-
-"---------- Relations ----------
-let s:math_lt      = '< '
-let s:math_gt      = '> '
-let s:math_leq     = '\leq '
-let s:math_geq     = '\geq '
-let s:math_eq      = '= '
-let s:math_nl      = '\nless '
-let s:math_ng      = '\ngtr '
-let s:math_nleq    = '\nleq '
-let s:math_ngeq    = '\ngeq '
-let s:math_neq     = '\neq '
-let s:math_neg     = '\neg '
-let s:math_uarrow  = '\uparrow '
-let s:math_darrow  = '\downarrow '
-let s:math_divides = '\divides '
-
-"---------- Operations ----------
-let s:math_add   = '+ '
-let s:math_min   = '- '
-let s:math_frac  = '\frac{ <+++> }{ <++> } <++>'
-let s:math_recip = '\frac{ 1 }{ <+++> } <++>'
-let s:math_dot   = '\cdot '
-let s:math_mult  = '* '
-let s:math_exp   = "\<BS>^"
-let s:math_pow   = "\<BS>^"
-let s:math_sq    = "\<BS>^2 "
-let s:math_inv   = "\<BS>^{-1} "
-let s:math_cross = '\times '
-
-"---------- Delimiters ----------
-let s:math_para  = '\left( <+++> \right) <++>'
-let s:math_sb    = '\left[ <+++> \right] <++>'
-let s:math_brac  = '\left\{ <+++> \right\} <++>'
-let s:math_group = '{ <+++> } <++>'
-let s:math_angle = '\angle{ <+++> } <++>'
-let s:math_abs   = '\abs{ <+++> } <++>'
-
-"---------- Group Theory ----------
-let s:math_iso   = '\sim '
-let s:math_niso  = '\nsim '
-let s:math_subg  = '\leq '
-let s:math_nsubg = '\trianglelefteq '
-let s:math_mod   = '/ '
-let s:math_aut   = '\aut '
-
-"---------- Functions ----------
-let s:math_to    = '\to '
-let s:math_comp  = '\circ '
-let s:math_of    = '\left( <+++> \right) <++>'
-let s:math_sin   = '\sin{ <+++> } <++>'
-let s:math_cos   = '\cos{ <+++> } <++>'
-let s:math_tan   = '\tan{ <+++> } <++>'
-let s:math_ln    = '\ln{ <+++> } <++>'
-let s:math_log   = '\log{ <+++> } <++>'
-let s:math_dfunc = '<+++> : <++> \to <++>'
-let s:math_sqrt  = '\sqrt{ <+++> } <++>'
-let s:math_img   = '\img '
-let s:math_ker   = '\ker '
-let s:math_case  = '\begin{cases} <+++> \end{cases} <++>'
-
-"---------- LaTeX commands ----------
-let s:math_big  = "è\<ESC>/\\\\)\<CR>lr]?\\\\(\<CR>lr[llcw"
-let s:math_sub  = "\<BS>_"
-let s:math_ud   = "\<BS>_{ <+++> }^{ <++> } "
-let s:math_text = '\text{ <+++> } <++>'
-
-"---------- Fancy Variables ----------
-let s:math_fa = '\mathcal{A} '
-let s:math_fn = '\mathcal{N} '
-let s:math_fp = '\mathcal{P} '
-let s:math_fc = '\mathcal{C} '
-let s:math_fm = '\mathcal{M} '
-let s:math_ff = '\mathcal{F} '
-let s:math_fb = '\mathcal{B} '
-
-"---------- Encapsulating keywords ----------
-let s:math_bar  = "\<ESC>F a\\bar{\<ESC>f i} "
-let s:math_hat  = "\<ESC>F a\\hat{\<ESC>f i} "
-let s:math_star = "\<BS>^* "
-let s:math_vec  = "\<ESC>F a\\vec{\<ESC>f i} "
-
-"---------- Linear Algebra ----------
-let s:math_dim = '\dim '
-let s:math_det = '\det '
-let s:math_com = "\<BS>^c "
-let s:math_matrix = "\<CR>\\begin{bmatrix}\<CR><+++>\<CR>\\end{bmatrix}\<CR><++>"
-let s:math_vdots = '\vdots & '
-let s:math_ddots = '\ddots & '
-
-"---------- Constants ----------
-let s:math_aleph = '\aleph '
-let s:math_inf   = '\infty '
-let s:math_one   = '1 '
-let s:math_zero  = '0 '
-let s:math_two   = '2 '
-let s:math_three = '3 '
-let s:math_four  = '4 '
-
-"---------- Operators ----------
-let s:math_int    = '\int^{ <+++> } <++>'
-let s:math_dev    = '\frac{d}{d<+++> } <++>'
-let s:math_lim    = '\lim_{ <+++> } <++>'
-let s:math_sum    = '\sum_{ <+++> }^{ <++> } <++>'
-let s:math_prd    = '\prod_{ <+++> }^{ <++> } <++>'
-let s:math_limsup = '\limsup '
-let s:math_liminf = '\liminf '
-let s:math_sup    = '\sup '
-" let s:math_inf = '\inf '
+let s:vimtexer_math = {
+\'Section: Lowercase Greek Letters' : 'COMMENT',
+    \'alpha'   : '\alpha ',
+    \'beta'    : '\beta ',
+    \'gamma'   : '\gamma ',
+    \'delta'   : '\delta ',
+    \'epsilon' : '\epsilon ',
+    \'ge'      : '\varepsilon ',
+    \'zeta'    : '\zeta ',
+    \'eta'     : '\eta ',
+    \'theta'   : '\theta ',
+    \'iota'    : '\iota ',
+    \'kappa'   : '\kappa ',
+    \'lambda'  : '\lambda ',
+    \'gl'      : '\lambda ',
+    \'mu'      : '\mu ',
+    \'nu'      : '\nu ',
+    \'xi'      : '\xi ',
+    \'omega'   : '\omega ',
+    \'pi'      : '\pi ',
+    \'rho'     : '\rho ',
+    \'sigma'   : '\sigma ',
+    \'tau'     : '\tau ',
+    \'upsilon' : '\upsilon ',
+    \'gu'      : '\upsilon ',
+    \'phi'     : '\varphi ',
+    \'chi'     : '\chi ',
+    \'psi'     : '\psi ',
+    \
+\'Section: Uppercase Greek Letters' : 'COMMENT',
+    \'Alpha'   : '\Alpha ',
+    \'Beta'    : '\Beta ',
+    \'Gamma'   : '\Gamma ',
+    \'Delta'   : '\Delta ',
+    \'Epsilon' : '\Epsilon ',
+    \'Zeta'    : '\Zeta ',
+    \'Eta'     : '\Eta ',
+    \'Theta'   : '\Theta ',
+    \'Iota'    : '\Iota ',
+    \'Kappa'   : '\Kappa ',
+    \'Lambda'  : '\Lambda ',
+    \'Mu'      : '\Mu ',
+    \'Nu'      : '\Nu ',
+    \'Xi'      : '\Xi ',
+    \'Omega'   : '\Omega ',
+    \'Pi'      : '\Pi ',
+    \'Rho'     : '\Rho ',
+    \'Sigma'   : '\Sigma ',
+    \'Tau'     : '\Tau ',
+    \'Upsilon' : '\Upsilon ',
+    \'Phi'     : '\Phi ',
+    \'Chi'     : '\Chi ',
+    \'Psi'     : '\Psi ',
+    \
+\'Section: Set Theory' : 'COMMENT',
+    \'sr'    : '\mathbb{R} ',
+    \'sc'    : '\mathbb{C} ',
+    \'Q'     : '\mathbb{Q} ',
+    \'sn'    : '\mathbb{N} ',
+    \'sz'    : '\mathbb{Z} ',
+    \'subs'  : '\subseteq ',
+    \'in'    : '\in ',
+    \'nin'   : '\not\in ',
+    \'cup'   : '\cup ',
+    \'cap'   : '\cap ',
+    \'union' : '\cup ',
+    \'sect'  : '\cap ',
+    \'smin'  : '\setminus ',
+    \'set'   : '\{ <+++> \} <++>',
+    \'card'  : '\card{ <+++> } <++>',
+    \'empty' : '\varnothing ',
+    \'pair'  : '( <+++> , <++> ) <++>',
+    \'dots'  : '\dots ',
+    \
+\'Section: Logic' : 'COMMENT',
+    \'st'      : '\st ',
+    \'exists'  : '\exists ',
+    \'nexists' : '\nexists ',
+    \'forall'  : '\forall ',
+    \'implies' : '\implies ',
+    \'iff'     : '\iff ',
+    \'and'     : '\land ',
+    \'or'      : '\lor ',
+    \
+\'Section: Relations' : 'COMMENT',
+    \'lt'      : '< ',
+    \'gt'      : '> ',
+    \'leq'     : '\leq ',
+    \'geq'     : '\geq ',
+    \'eq'      : '= ',
+    \'nl'      : '\nless ',
+    \'ng'      : '\ngtr ',
+    \'nleq'    : '\nleq ',
+    \'ngeq'    : '\ngeq ',
+    \'neq'     : '\neq ',
+    \'neg'     : '\neg ',
+    \'uarrow'  : '\uparrow ',
+    \'darrow'  : '\downarrow ',
+    \'divides' : '\divides ',
+    \
+\'Section: Operations' : 'COMMENT',
+    \'add'   : '+ ',
+    \'min'   : '- ',
+    \'frac'  : '\frac{ <+++> }{ <++> } <++>',
+    \'recip' : '\frac{ 1 }{ <+++> } <++>',
+    \'dot'   : '\cdot ',
+    \'mult'  : '* ',
+    \'exp'   : "\<BS>^",
+    \'pow'   : "\<BS>^",
+    \'sq'    : "\<BS>^2 ",
+    \'inv'   : "\<BS>^{-1} ",
+    \'cross' : '\times ',
+    \
+\'Section: Delimiters' : 'COMMENT',
+    \'para'  : '\left( <+++> \right) <++>',
+    \'sb'    : '\left[ <+++> \right] <++>',
+    \'brac'  : '\left\{ <+++> \right\} <++>',
+    \'group' : '{ <+++> } <++>',
+    \'angle' : '\angle{ <+++> } <++>',
+    \'abs'   : '\abs{ <+++> } <++>',
+    \
+\'Section: Group Theory' : 'COMMENT',
+    \'iso'   : '\sim ',
+    \'niso'  : '\nsim ',
+    \'subg'  : '\leq ',
+    \'nsubg' : '\trianglelefteq ',
+    \'mod'   : '/ ',
+    \'aut'   : '\aut ',
+    \
+\'Section: Functions' : 'COMMENT',
+    \'to'    : '\to ',
+    \'comp'  : '\circ ',
+    \'of'    : '\left( <+++> \right) <++>',
+    \'sin'   : '\sin{ <+++> } <++>',
+    \'cos'   : '\cos{ <+++> } <++>',
+    \'tan'   : '\tan{ <+++> } <++>',
+    \'ln'    : '\ln{ <+++> } <++>',
+    \'log'   : '\log{ <+++> } <++>',
+    \'dfunc' : '<+++> : <++> \to <++>',
+    \'sqrt'  : '\sqrt{ <+++> } <++>',
+    \'img'   : '\img ',
+    \'ker'   : '\ker ',
+    \'case'  : '\begin{cases} <+++> \end{cases} <++>',
+    \
+\'Section: LaTeX commands' : 'COMMENT',
+    \'big'  : "è\<ESC>/\\\\)\<CR>lr]?\\\\(\<CR>lr[llcw",
+    \'sub'  : "\<BS>_",
+    \'ud'   : "\<BS>_{ <+++> }^{ <++> } ",
+    \'text' : '\text{ <+++> } <++>',
+    \
+\'Section: Fancy Variables' : 'COMMENT',
+    \'fa' : '\mathcal{A} ',
+    \'fn' : '\mathcal{N} ',
+    \'fp' : '\mathcal{P} ',
+    \'fc' : '\mathcal{C} ',
+    \'fm' : '\mathcal{M} ',
+    \'ff' : '\mathcal{F} ',
+    \'fb' : '\mathcal{B} ',
+    \
+\'Section: Encapsulating keywords' : 'COMMENT',
+    \'bar'  : "\<ESC>F a\\bar{\<ESC>f i} ",
+    \'hat'  : "\<ESC>F a\\hat{\<ESC>f i} ",
+    \'star' : "\<BS>^* ",
+    \'vec'  : "\<ESC>F a\\vec{\<ESC>f i} ",
+    \
+\'Section: Linear Algebra' : 'COMMENT',
+    \'dim' : '\dim ',
+    \'det' : '\det ',
+    \'com' : "\<BS>^c ",
+    \'matrix' : "\<CR>\\begin{bmatrix}\<CR><+++>\<CR>\\end{bmatrix}\<CR><++>",
+    \'vdots' : '\vdots & ',
+    \'ddots' : '\ddots & ',
+    \
+\'Section: Constants' : 'COMMENT',
+    \'aleph' : '\aleph ',
+    \'inf'   : '\infty ',
+    \'one'   : '1 ',
+    \'zero'  : '0 ',
+    \'two'   : '2 ',
+    \'three' : '3 ',
+    \'four'  : '4 ',
+    \
+\'Section: Operators' : 'COMMENT',
+    \'int'    : '\int^{ <+++> } <++>',
+    \'dev'    : '\frac{d}{d<+++> } <++>',
+    \'lim'    : '\lim_{ <+++> } <++>',
+    \'sum'    : '\sum_{ <+++> }^{ <++> } <++>',
+    \'prd'    : '\prod_{ <+++> }^{ <++> } <++>',
+    \'limsup' : '\limsup ',
+    \'liminf' : '\liminf ',
+    \'sup'    : '\sup ',
+\}
 
 " }}}
 
 
 " LaTeX Mode Keywords {{{
 
-"---------- Environments ----------
-let s:tex_exe = "\\begin{exercise}{ <+++> }\<CR><++>\<CR>\\end{exercise}"
-let s:tex_prf = "\\begin{proof}\<CR><+++>\<CR>\\end{proof}"
-let s:tex_thm = "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}"
-let s:tex_lem = "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}"
-let s:tex_que = "\\begin{question}\<CR><+++>\<CR>\\end{question}"
-let s:tex_cor = "\\begin{corollary}\<CR><+++>\<CR>\\end{corollary}"
-let s:tex_lst = "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}"
-let s:tex_cd  = "$$\<CR>\\begin{tikzcd}\<CR><+++>\<CR>\\end{tikzcd}\<CR>$$\<CR><++>"
-
-"---------- Simple Aliases ----------
-let s:tex_st   = 'such that '
-let s:tex_homo = 'homomorphism '
-let s:tex_iso  = 'isomorphism '
-let s:tex_iff  = 'if and only if '
-let s:tex_wlog = 'without loss of generality '
-let s:tex_Wlog = 'Without loss of generality, '
-let s:tex_siga = '\(\sigma\)-algebra '
-let s:tex_gset = '\(G\)-set '
-
-"---------- Other Commands ----------
-let s:tex_itm   = '\item '
-let s:tex_todo  = '\textcolor{red}{TODO: <+++>} <++>'
-let s:tex_arrow = '\arrow[ <+++> ] <++>'
-let s:tex_sect  = '\section*{ <+++> }'
-let s:tex_qt    = " ``<++>'' <++>"
-let s:tex_gtg   = '\textcolor{purple}{ <+++> }'
+let s:vimtexer_tex = {
+\'Section: Environments' : 'COMMENT',
+    \'exe' : "\\begin{exercise}{ <+++> }\<CR><++>\<CR>\\end{exercise}",
+    \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
+    \'thm' : "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}",
+    \'lem' : "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}",
+    \'que' : "\\begin{question}\<CR><+++>\<CR>\\end{question}",
+    \'cor' : "\\begin{corollary}\<CR><+++>\<CR>\\end{corollary}",
+    \'lst' : "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}",
+    \'cd'  : "$$\<CR>\\begin{tikzcd}\<CR><+++>\<CR>\\end{tikzcd}\<CR>$$\<CR><++>",
+    \
+\'Section: Simple Aliases' : 'COMMENT',
+    \'st'   : 'such that ',
+    \'homo' : 'homomorphism ',
+    \'iso'  : 'isomorphism ',
+    \'iff'  : 'if and only if ',
+    \'wlog' : 'without loss of generality ',
+    \'Wlog' : 'Without loss of generality, ',
+    \'siga' : '\(\sigma\)-algebra ',
+    \'gset' : '\(G\)-set ',
+    \
+\'Section: Other Commands' : 'COMMENT',
+    \'itm'   : '\item ',
+    \'todo'  : '\textcolor{red}{TODO: <+++>} <++>',
+    \'arrow' : '\arrow[ <+++> ] <++>',
+    \'sect'  : '\section*{ <+++> }',
+    \'qt'    : " ``<++>'' <++>",
+    \'gtg'   : '\textcolor{purple}{ <+++> }',
+\}
 
 " }}}
 " }}}
