@@ -266,8 +266,9 @@ let s:vimtexer_math = {
     \'abs'   : '\abs{ <+++> } <++>',
     \
 \'Section: Group Theory' : 'COMMENT',
-    \'iso'   : '\sim ',
-    \'niso'  : '\nsim ',
+    \'ord'   : '\ord{ <+++> } <++>',
+    \'iso'   : '\iso ',
+    \'niso'  : '\niso ',
     \'subg'  : '\leq ',
     \'nsubg' : '\trianglelefteq ',
     \'mod'   : '/ ',
