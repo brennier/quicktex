@@ -344,7 +344,7 @@ let s:vimtexer_math = {
 
 let s:vimtexer_tex = {
 \'Section: Environments' : 'COMMENT',
-    \'exe' : "\\begin{exercise}{ <+++> }\<CR><++>\<CR>\\end{exercise}",
+    \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}",
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
     \'thm' : "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}",
     \'lem' : "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}",
