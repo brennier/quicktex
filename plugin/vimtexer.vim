@@ -300,7 +300,7 @@ let s:math_fb = '\mathcal{B} '
 "---------- Encapsulating keywords ----------
 let s:math_bar  = "\<ESC>F a\\bar{\<ESC>f i} "
 let s:math_hat  = "\<ESC>F a\\hat{\<ESC>f i} "
-let s:math_star = "\<ESC>F a\\star{\<ESC>f i} "
+let s:math_star = "\<BS>^* "
 let s:math_vec  = "\<ESC>F a\\vec{\<ESC>f i} "
 
 "---------- Linear Algebra ----------
