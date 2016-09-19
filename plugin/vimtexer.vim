@@ -18,7 +18,6 @@
 " " Add search keywords?
 " " Visually Select when JumpFuncing
 " " Allow comments inside <+ +>
-" " Fix Bug where special characters around <++> are replaced
 " " Map infimum
 " " Fix mod keyword
 " " sq = squared or \mathbb{Q} ?
@@ -64,7 +63,7 @@ function! JumpFunc()
     if &ft == 'math'
         " If there's a <++> to jump to in the line, then jump to it
 	    if getline('.') =~ '<++>'
-            return "\<Right>\<BS>\<ESC>/<++>\<CR>cw"
+            return "\<Right>\<BS>\<ESC>/<++>\<CR>cf>"
         else
         " If there is no <++> on the current line, then exit math mode and jump to
         " right after \)
@@ -105,7 +104,7 @@ function! ExpandWord()
         " placed there automatically after the subsitution. Notice that, in
         " general, the JumpFunc goes to "<++>" instead
     	if rhs =~ '<+++>'
-            let jumpBack = "\<ESC>?<+++>\<CR>cw"
+            let jumpBack = "\<ESC>?<+++>\<CR>cf>"
         endif
         " This is a hack for one letter keywords. It types an extra letter and
         " escapes, so now it's two letters
