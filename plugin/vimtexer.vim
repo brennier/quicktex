@@ -20,7 +20,6 @@
 " " Visually Select when JumpFuncing
 " " Map infimum
 " " Fix mod keyword
-" " sq = squared or \mathbb{Q} ?
 " " Fix JumpFunc for multiline math mode
 " " Fix trailing whitespace and indentation
 " }}}
@@ -198,11 +197,11 @@ let s:vimtexer_math = {
     \'Psi'     : '\Psi ',
     \
 \'Section: Set Theory' : 'COMMENT',
-    \'sr'    : '\mathbb{R} ',
-    \'sc'    : '\mathbb{C} ',
+    \'R'    : '\mathbb{R} ',
+    \'C'    : '\mathbb{C} ',
     \'Q'     : '\mathbb{Q} ',
-    \'sn'    : '\mathbb{N} ',
-    \'sz'    : '\mathbb{Z} ',
+    \'N'    : '\mathbb{N} ',
+    \'Z'    : '\mathbb{Z} ',
     \'subs'  : '\subseteq ',
     \'in'    : '\in ',
     \'nin'   : '\not\in ',
