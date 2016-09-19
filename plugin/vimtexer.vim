@@ -18,7 +18,6 @@
 " " Improve command to change to \[ \]
 " " Add search keywords?
 " " Visually Select when JumpFuncing
-" " Allow comments inside <+ +>
 " " Map infimum
 " " Fix mod keyword
 " " sq = squared or \mathbb{Q} ?
@@ -74,7 +73,7 @@ function! JumpFunc()
             return "\<Right>\<Right> "
         endif
     else
-        return "\<Right>\<BS>\<ESC>/<++>\<CR>cf>"
+        return "\<Right>\<BS>\<ESC>/<+.*+>\<CR>cf>"
     endif
 endfunction
 
