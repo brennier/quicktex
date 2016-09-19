@@ -5,7 +5,7 @@
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
 " Last Edit: Sept 17, 2016
- 
+
 
 " TODO: {{{
 " " Only load relevent dictionaries
@@ -21,9 +21,8 @@
 " " Map infimum
 " " Fix mod keyword
 " " Fix JumpFunc for multiline math mode
-" " Fix trailing whitespace and indentation
 " }}}
- 
+
 " Special Key Assignment {{{
 " Only map these functions if inside a tex file
 " <C-r>=[function]() means to call a function and type what it returns as
@@ -62,7 +61,7 @@ endfunction
 function! JumpFunc()
     if &ft == 'math'
         " If there's a <++> to jump to in the line, then jump to it
-	    if getline('.') =~ '<++>'
+        if getline('.') =~ '<++>'
             return "\<Right>\<BS>\<ESC>/<++>\<CR>cf>"
         else
         " If there is no <++> on the current line, then exit math mode and jump to
@@ -78,15 +77,15 @@ endfunction
 
 function! ExpandWord()
     " Move left so that the cursor is over the word and then expand the word
-	normal! h
-	let word = expand('<cword>')
+    normal! h
+    let word = expand('<cword>')
 
     " If the last character was a space, then JumpFunc
     " It's -1 instead of -2 because we already moved to the left one space
     if getline('.')[col(".")-1] == " "
         return JumpFunc()
     endif
-    
+
     " Check if the dictionary exists for the given filetype.
     if exists('s:vimtexer_'.&ft)
         " If it exists, set that dictionary to the variable 'dictionary'
@@ -96,7 +95,7 @@ function! ExpandWord()
         " the last character of the word, so move right and put the original space
         return "\<Right> "
     endif
-    
+
     " Get the result of the keyword. If the keyword doesn't exist in the
     " dictonary, return the empty string ''
     let rhs = get(dictionary, word,'')
@@ -104,10 +103,10 @@ function! ExpandWord()
     " If we found a match in the dictionary
     if rhs != ''
         let jumpBack = ""
-    	" If the RHS contains the identifier "<+++>", then your cursor will be
+        " If the RHS contains the identifier "<+++>", then your cursor will be
         " placed there automatically after the subsitution. Notice that, in
         " general, the JumpFunc goes to "<++>" instead
-    	if rhs =~ '<+++>'
+        if rhs =~ '<+++>'
             let jumpBack = "\<ESC>?<+++>\<CR>cf>"
         endif
         " This is a hack for one letter keywords. It types an extra letter and
@@ -115,11 +114,11 @@ function! ExpandWord()
         let hack = "a\<ESC>"
         " Do the hack, then delete the word and go to insert mode, then type
         " out the right hand side then jump back to "<+++>"
-    	return hack."ciw".rhs.jumpBack
-	else
+        return hack."ciw".rhs.jumpBack
+    else
         " If the dictionary doesn't exist, remember, we moved left and are over
         " the last character of the word, so move right and put the original space
-    	return "\<Right> "
+        return "\<Right> "
     endif
 endfunction
 " }}}
