@@ -19,7 +19,6 @@
 " " Visually Select when JumpFuncing
 " " Map infimum
 " " Fix JumpFunc for multiline math mode
-" " Fix leading space after exiting math mode
 " }}}
 
 " Special Key Assignment {{{
@@ -67,7 +66,7 @@ function! JumpFunc()
         " right after \)
             set filetype=tex
             execute "normal! / \\\\)\<CR>x"
-            return "\<Right>\<Right> "
+            return "\<Right>\<Right>\<Right>"
         endif
     else
         return "\<Right>\<BS>\<ESC>/<+.*+>\<CR>cf>"
