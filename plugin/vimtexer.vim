@@ -9,7 +9,6 @@
 
 " TODO: {{{
 " " Only load relevent dictionaries
-" " Create an easy way to reenter math mode namespace
 " " Add . $ functions (perhaps as . and ')
 " " " Transform them after jumping out of math mode
 " " Add undo and redo keywords
@@ -32,20 +31,30 @@ augroup filetype_tex
 augroup END
 " }}}
 
+function! InMathMode()
+    let [lnum1, col1] = searchpos('\\(\|\\[','nbW')
+    let [lnum2, col2] = searchpos('\\)\|\\]','nbW')
+    if lnum1 > lnum2
+        return 1
+    elseif lnum1 == lnum2 && col1 > col2
+        return 1
+    else
+        return 0
+    endif
+endfunction
+    
 " Main Functions {{{
 " Function that starts mathmode
 function! MathStart()
     " If already in mathmode, just return a space. This is useful if you want
     " to normally type a keyword. That way, by pressing _, you can space
     " without keyword expansion
-    if &ft == 'math'
+    if InMathMode()
         return " "
     else
         " If the last character is a space, then start math mode and go inside
         " the brackets
         if getline(".")[col(".")-2] == " "
-            set filetype=math
-            set syntax=tex
             return "\\(  \\) \<Left>\<Left>\<Left>\<Left>"
         " Otherwise, replace the last word with \(word\)
         else
@@ -57,14 +66,13 @@ endfunction
 " Function for jumping around
 " This function is only used in ExpandWord
 function! JumpFunc()
-    if &ft == 'math'
+    if InMathMode()
         " If there's a <++> to jump to in the line, then jump to it
         if getline('.') =~ '<++>'
             return "\<Right>\<BS>\<ESC>/<++>\<CR>cf>"
         else
         " If there is no <++> on the current line, then exit math mode and jump to
         " right after \)
-            set filetype=tex
             execute "normal! / \\\\)\<CR>x"
             return "\<Right>\<Right>\<Right>"
         endif
@@ -84,13 +92,15 @@ function! ExpandWord()
         return JumpFunc()
     endif
 
-    " Check if the dictionary exists for the given filetype.
-    if exists('g:vimtexer_'.&ft)
-        " If it exists, set that dictionary to the variable 'dictionary'
+    " Checks it see if your in mathmode, if so, use the math dictionary. If
+    " not, check if a dictionary exists for the given filetype. If the
+    " dictionary doesn't exist, remember, we moved left and are over the last
+    " character of the word, so move right and put the original space
+    if InMathMode()
+        let dictionary = g:vimtexer_math
+    elseif exists('g:vimtexer_'.&ft)
         execute "let dictionary = g:vimtexer_".&ft
     else
-        " If the dictionary doesn't exist, remember, we moved left and are over
-        " the last character of the word, so move right and put the original space
         return "\<Right> "
     endif
 
