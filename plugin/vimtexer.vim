@@ -31,9 +31,15 @@ augroup filetype_tex
 augroup END
 " }}}
 
+" Main Functions {{{
+" Detects to see if the user is inside math delimiters or not
 function! InMathMode()
+    " Find the line number and column number for the last \( and \) (or \[ and \])
     let [lnum1, col1] = searchpos('\\(\|\\[','nbW')
     let [lnum2, col2] = searchpos('\\)\|\\]','nbW')
+
+    " See if the last \) (or \]) occured after the last \( (or \[), if it did,
+    " then you're in math mode, as the \( or \[ hasn't been closed yet.
     if lnum1 > lnum2
         return 1
     elseif lnum1 == lnum2 && col1 > col2
@@ -43,7 +49,6 @@ function! InMathMode()
     endif
 endfunction
     
-" Main Functions {{{
 " Function that starts mathmode
 function! MathStart()
     " If already in mathmode, just return a space. This is useful if you want
