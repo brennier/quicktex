@@ -26,8 +26,8 @@
 " if you were actually presses the keys yourself
 augroup filetype_tex
     autocmd!
-    autocmd FileType tex inoremap _ <C-r>=MathStart()<CR>
-    autocmd FileType tex inoremap <Space> <C-r>=ExpandWord()<CR>
+    autocmd FileType tex inoremap <silent> _ <C-r>=MathStart()<CR>
+    autocmd FileType tex inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 augroup END
 " }}}
 
