@@ -14,10 +14,10 @@ These keywords and expansions are stored as dictionaries for each filetype. This
 
 Some additional features and notes:
 
-1. Regular LaTeX and typing math in LaTeX are considered two different filetypes, `tex` and `math` respectively. That way you can set keywords that only expand while in math mode and vice versa.
+1. Regular LaTeX and typing math in LaTeX are considered two different namespaces, `tex` and `math` respectively. That way you can set keywords that only expand while between math brackets.
 
-2. Typing `  ` (that is, double space) is mapped to a Jump Function that jumps and replaces the next instance of `<++>` in your file
+2. Typing `  ` (that is, double space) is mapped to a Jump Function that jumps and replaces the next instance of `<++>` in your file with your cursor.
 
-3. `_` will start math mode i.e. `\( <+++> \)` and will switch the filetypes for you. Double spacing with no `<++>`'s left on the line causes you to jump out of math mode and switches the filetype back to LaTeX.
+3. `_` will start math mode i.e. `\( <+++> \)` and will switch the filetypes for you. Double spacing with no `<++>`'s left on the line causes you to jump out of math brackets.
 
-4. The expansion can be literal using single quotes (e.g. `\alpha `), or "dynamic" using double quotes, which executes the expansion as if it were directly typed. Keep in mind that in a dynamic expansion it is necessary to escape back slashes e.g. `\\`. Also, non-alphanumeric keys are represented as `\<CR>`, `\<BS>`, `\<Right>`, etc.
+4. The expansion can be literal using single quotes (e.g. `'\alpha'`), or "dynamic" using double quotes, which executes the expansion as if it were directly typed. Keep in mind that in a dynamic expansion it is necessary to escape back slashes e.g. `\\`; however, non-alphanumeric keys can be represented as `\<CR>`, `\<BS>`, `\<Right>`, etc.
