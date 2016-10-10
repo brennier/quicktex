@@ -48,7 +48,7 @@ function! InMathMode()
         return 0
     endif
 endfunction
-    
+
 " Function that starts mathmode
 function! MathStart()
     " If already in mathmode, just return a space. This is useful if you want
@@ -158,6 +158,7 @@ if !exists('g:vimtexer_math')
 let g:vimtexer_math = {
 \'Section: Lowercase Greek Letters' : 'COMMENT',
     \'alpha'   : '\alpha ',
+    \'ga'      : '\alpha ',
     \'beta'    : '\beta ',
     \'gamma'   : '\gamma ',
     \'delta'   : '\delta ',
@@ -215,6 +216,7 @@ let g:vimtexer_math = {
     \'bq'    : '\mathbb{Q} ',
     \'bn'    : '\mathbb{N} ',
     \'bz'    : '\mathbb{Z} ',
+    \'bf'    : '\mathbb{F} ',
     \'subs'  : '\subseteq ',
     \'in'    : '\in ',
     \'nin'   : '\not\in ',
@@ -262,8 +264,8 @@ let g:vimtexer_math = {
     \'recip' : '\frac{ 1 }{ <+++> } <++>',
     \'dot'   : '\cdot ',
     \'mult'  : '* ',
-    \'exp'   : "\<BS>^",
-    \'pow'   : "\<BS>^",
+    \'exp'   : "\<BS>^{<+++>} <++>",
+    \'pow'   : "\<BS>^{<+++>} <++>",
     \'sq'    : "\<BS>^2 ",
     \'inv'   : "\<BS>^{-1} ",
     \'cross' : '\times ',
@@ -286,23 +288,24 @@ let g:vimtexer_math = {
     \'aut'   : '\aut ',
     \
 \'Section: Functions' : 'COMMENT',
-    \'to'    : '\to ',
-    \'comp'  : '\circ ',
-    \'of'    : '\left( <+++> \right) <++>',
-    \'sin'   : '\sin{ <+++> } <++>',
-    \'cos'   : '\cos{ <+++> } <++>',
-    \'tan'   : '\tan{ <+++> } <++>',
-    \'ln'    : '\ln{ <+++> } <++>',
-    \'log'   : '\log{ <+++> } <++>',
-    \'dfunc' : '<+++> : <++> \to <++>',
-    \'sqrt'  : '\sqrt{ <+++> } <++>',
-    \'img'   : '\img ',
-    \'ker'   : '\ker ',
-    \'case'  : '\begin{cases} <+++> \end{cases} <++>',
+    \'to'     : '\to ',
+    \'mapsto' : '\mapsto ',
+    \'comp'   : '\circ ',
+    \'of'     : '( <+++> ) <++>',
+    \'sin'    : '\sin{ <+++> } <++>',
+    \'cos'    : '\cos{ <+++> } <++>',
+    \'tan'    : '\tan{ <+++> } <++>',
+    \'ln'     : '\ln{ <+++> } <++>',
+    \'log'    : '\log{ <+++> } <++>',
+    \'dfunc'  : '<+++> : <++> \to <++>',
+    \'sqrt'   : '\sqrt{ <+++> } <++>',
+    \'img'    : '\img ',
+    \'ker'    : '\ker ',
+    \'case'   : '\begin{cases} <+++> \end{cases} <++>',
     \
 \'Section: LaTeX commands' : 'COMMENT',
     \'big'    : "è\<ESC>/\\\\)\<CR>lr]?\\\\(\<CR>lr[llcw",
-    \'sub'    : "\<BS>_",
+    \'sub'    : "\<BS>_{<+++>} <++>",
     \'sone'   : "\<BS>_1 ",
     \'stwo'   : "\<BS>_2 ",
     \'sthree' : "\<BS>_3 ",
@@ -318,6 +321,7 @@ let g:vimtexer_math = {
     \'fm' : '\mathcal{M} ',
     \'ff' : '\mathcal{F} ',
     \'fb' : '\mathcal{B} ',
+    \'fl' : '\mathcal{L} ',
     \
 \'Section: Encapsulating keywords' : 'COMMENT',
     \'bar'  : "\<ESC>F a\\bar{\<ESC>f i} ",
@@ -326,12 +330,14 @@ let g:vimtexer_math = {
     \'vec'  : "\<ESC>F a\\vec{\<ESC>f i} ",
     \
 \'Section: Linear Algebra' : 'COMMENT',
-    \'dim' : '\dim ',
-    \'det' : '\det ',
-    \'com' : "\<BS>^c ",
+    \'dim'    : '\dim ',
+    \'det'    : '\det ',
+    \'GL'     : '\text{GL} ',
+    \'SL'     : '\text{SL} ',
+    \'com'    : "\<BS>^c ",
     \'matrix' : "\<CR>\\begin{bmatrix}\<CR><+++>\<CR>\\end{bmatrix}\<CR><++>",
-    \'vdots' : '\vdots & ',
-    \'ddots' : '\ddots & ',
+    \'vdots'  : '\vdots & ',
+    \'ddots'  : '\ddots & ',
     \
 \'Section: Constants' : 'COMMENT',
     \'aleph' : '\aleph ',
@@ -385,9 +391,9 @@ let g:vimtexer_tex = {
     \'itm'   : '\item ',
     \'todo'  : '\textcolor{red}{TODO: <+++>} <++>',
     \'arrow' : '\arrow[ <+++> ] <++>',
-    \'sect'  : '\section*{ <+++> }',
+    \'sect'  : '\section*{<+++>}',
     \'qt'    : " ``<++>'' <++>",
-    \'gtg'   : '\textcolor{purple}{ <+++> }',
+    \'gtg'   : '\textcolor{purple}{<+++>}',
     \
 \'Section: Greek Letters' : 'COMMENT',
     \'alpha'   : '\(\alpha\) ',
@@ -435,7 +441,6 @@ let g:vimtexer_tex = {
     \'p'   : '\(p\) ',
     \'q'   : '\(q\) ',
     \'r'   : '\(r\) ',
-    \'t'   : '\(t\) ',
     \'u'   : '\(u\) ',
     \'v'   : '\(v\) ',
     \'w'   : '\(w\) ',
