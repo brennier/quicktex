@@ -9,16 +9,16 @@
 
 " TODO: {{{
 " " Only load relevent dictionaries
-" " Add . $ functions (perhaps as . and ')
-" " " Transform them after jumping out of math mode
-" " Add undo and redo keywords
-" " Add del keyword
+" " Create new math-related Text Objects
 " " Improve command to change to \[ \]
-" " Add search keywords?
 " " Visually Select when JumpFuncing
 " " Map infimum
 " " Fix JumpFunc for multiline math mode
 " }}}
+
+if !exists('g:vimtexer_mathkey')
+    let g:vimtexer_mathkey='_'
+endif
 
 " Special Key Assignment {{{
 " Only map these functions if inside a tex file
@@ -26,7 +26,7 @@
 " if you were actually presses the keys yourself
 augroup filetype_tex
     autocmd!
-    autocmd FileType tex inoremap <silent> _ <C-r>=MathStart()<CR>
+    autocmd FileType tex execute 'inoremap <silent> '.g:vimtexer_mathkey.' <C-r>=MathStart()<CR>'
     autocmd FileType tex inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 augroup END
 " }}}
@@ -55,7 +55,7 @@ function! MathStart()
     " to normally type a keyword. That way, by pressing _, you can space
     " without keyword expansion
     if InMathMode()
-        return " "
+        return g:vimtexer_mathkey
     else
         " If the last character is a space, then start math mode and go inside
         " the brackets
