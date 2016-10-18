@@ -10,10 +10,10 @@
 " TODO: {{{
 " " Only load relevent dictionaries
 " " Create new math-related Text Objects
-" " Improve command to change to \[ \]
 " " Visually Select when JumpFuncing
 " " Map infimum
 " " Fix JumpFunc for multiline math mode
+" " Fix bug for starting math mode on a newline
 " }}}
 
 if !exists('g:vimtexer_mathkey')
@@ -76,9 +76,8 @@ function! JumpFunc()
         if getline('.') =~ '<++>'
             return "\<Right>\<BS>\<ESC>/<++>\<CR>cf>"
         else
-        " If there is no <++> on the current line, then exit math mode and jump to
-        " right after \)
-            execute "normal! / \\\\)\<CR>x"
+        " If there is no <++> on the current line, then jump out of math mode 
+            execute "normal! x/\\\\)\\|\\\\]/\<CR>"
             return "\<Right>\<Right>\<Right>"
         endif
     else
@@ -357,6 +356,10 @@ let g:vimtexer_math = {
     \'limsup' : '\limsup ',
     \'liminf' : '\liminf ',
     \'sup'    : '\sup ',
+    \
+\'Section: Diagrams' : 'COMMENT',
+    \'arrow' : '\arrow[<+++>] <++>',
+    \
 \}
 endif
 
@@ -375,7 +378,7 @@ let g:vimtexer_tex = {
     \'que' : "\\begin{question}\<CR><+++>\<CR>\\end{question}",
     \'cor' : "\\begin{corollary}\<CR><+++>\<CR>\\end{corollary}",
     \'lst' : "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}",
-    \'cd'  : "$$\<CR>\\begin{tikzcd}\<CR><+++>\<CR>\\end{tikzcd}\<CR>$$\<CR><++>",
+    \'cd'  : "\\[\\begin{tikzcd}\<CR><+++>\<CR>\\end{tikzcd}\\]\<CR><++>",
     \
 \'Section: Simple Aliases' : 'COMMENT',
     \'st'   : 'such that ',
@@ -390,7 +393,6 @@ let g:vimtexer_tex = {
 \'Section: Other Commands' : 'COMMENT',
     \'itm'   : '\item ',
     \'todo'  : '\textcolor{red}{TODO: <+++>} <++>',
-    \'arrow' : '\arrow[ <+++> ] <++>',
     \'sect'  : '\section*{<+++>}',
     \'qt'    : " ``<++>'' <++>",
     \'gtg'   : '\textcolor{purple}{<+++>}',
