@@ -4,32 +4,35 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Sept 19, 2016
+" Last Edit: Oct 18, 2016
 
 
 " TODO: {{{
-" " Only load relevent dictionaries
-" " Create new math-related Text Objects
-" " Visually Select when JumpFuncing
+" " Only load on tex files
 " " Map infimum
-" " Fix JumpFunc for multiline math mode
-" " Fix bug for starting math mode on a newline
 " }}}
 
-if !exists('g:vimtexer_mathkey')
-    let g:vimtexer_mathkey='_'
+if !exists('g:vimtexer_mathkeyword')
+    let g:vimtexer_mathkeyword='_'
 endif
 
-" Special Key Assignment {{{
-" Only map these functions if inside a tex file
+if !exists('g:vimtexer_mathobjects')
+    let g:vimtexer_mathobjects = 1
+endif
+
+if g:vimtexer_mathobjects
+    onoremap am :<c-u>execute "normal! /\\\\)\rf)v?\\\\(\r"<CR>
+    onoremap im :<c-u>execute "normal! /\\\\)\rhv?\\\\(\rll"<CR>
+    onoremap ap :<c-u>execute "normal! /\\\\right)\rf)v?\\\\left(\r"<CR>
+    onoremap ip :<c-u>execute "normal! /\\\\right)\rhv?\\\\left(\r6l"<CR>
+endif
+
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
 augroup filetype_tex
     autocmd!
-    autocmd FileType tex execute 'inoremap <silent> '.g:vimtexer_mathkey.' <C-r>=MathStart()<CR>'
     autocmd FileType tex inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 augroup END
-" }}}
 
 " Main Functions {{{
 " Detects to see if the user is inside math delimiters or not
@@ -49,42 +52,6 @@ function! InMathMode()
     endif
 endfunction
 
-" Function that starts mathmode
-function! MathStart()
-    " If already in mathmode, just return a space. This is useful if you want
-    " to normally type a keyword. That way, by pressing _, you can space
-    " without keyword expansion
-    if InMathMode()
-        return g:vimtexer_mathkey
-    else
-        " If the last character is a space, then start math mode and go inside
-        " the brackets
-        if getline(".")[col(".")-2] == " "
-            return "\\(  \\) \<Left>\<Left>\<Left>\<Left>"
-        " Otherwise, replace the last word with \(word\)
-        else
-            return "\<ESC>ciw\\(\<ESC>pa\\) "
-        endif
-    endif
-endfunction
-
-" Function for jumping around
-" This function is only used in ExpandWord
-function! JumpFunc()
-    if InMathMode()
-        " If there's a <++> to jump to in the line, then jump to it
-        if getline('.') =~ '<++>'
-            return "\<Right>\<BS>\<ESC>/<++>\<CR>cf>"
-        else
-        " If there is no <++> on the current line, then jump out of math mode 
-            execute "normal! x/\\\\)\\|\\\\]/\<CR>"
-            return "\<Right>\<Right>\<Right>"
-        endif
-    else
-        return "\<Right>\<BS>\<ESC>/<+.*+>\<CR>cf>"
-    endif
-endfunction
-
 function! ExpandWord()
     " Move left so that the cursor is over the word and then expand the word
     normal! h
@@ -93,7 +60,7 @@ function! ExpandWord()
     " If the last character was a space, then JumpFunc
     " It's -1 instead of -2 because we already moved to the left one space
     if getline('.')[col(".")-1] == " "
-        return JumpFunc()
+        return "\<Right>\<BS>\<ESC>/<+.*+>\<CR>cf>"
     endif
 
     " Checks it see if your in mathmode, if so, use the math dictionary. If
@@ -370,6 +337,7 @@ endif
 
 if !exists('g:vimtexer_tex')
 let g:vimtexer_tex = {
+    \g:vimtexer_mathkeyword : '\( <+++> \) <++>',
 \'Section: Environments' : 'COMMENT',
     \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}",
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
@@ -437,7 +405,6 @@ let g:vimtexer_tex = {
     \'j'   : '\(j\) ',
     \'k'   : '\(k\) ',
     \'l'   : '\(l\) ',
-    \'m'   : '\(m\) ',
     \'n'   : '\(n\) ',
     \'o'   : '\(o\) ',
     \'p'   : '\(p\) ',
