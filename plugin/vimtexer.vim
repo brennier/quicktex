@@ -4,13 +4,7 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Oct 18, 2016
-
-
-" TODO: {{{
-" " Only load on tex files
-" " Map infimum
-" }}}
+" Last Edit: Oct 23, 2016
 
 if !exists('g:vimtexer_mathkeyword')
     let g:vimtexer_mathkeyword='_'
@@ -29,10 +23,7 @@ endif
 
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
-augroup filetype_tex
-    autocmd!
-    autocmd FileType tex inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
-augroup END
+autocmd BufNewFile,BufRead *.tex inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 
 " Main Functions {{{
 " Detects to see if the user is inside math delimiters or not
@@ -323,6 +314,7 @@ let g:vimtexer_math = {
     \'limsup' : '\limsup ',
     \'liminf' : '\liminf ',
     \'sup'    : '\sup ',
+    \'sinf'    : '\inf ',
     \
 \'Section: Diagrams' : 'COMMENT',
     \'arrow' : '\arrow[<+++>] <++>',
@@ -331,7 +323,6 @@ let g:vimtexer_math = {
 endif
 
 " }}}
-
 
 " LaTeX Mode Keywords {{{
 
