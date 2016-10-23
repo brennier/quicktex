@@ -23,7 +23,7 @@ endif
 
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
-autocmd BufNewFile,BufRead *.tex inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
+inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 
 " Main Functions {{{
 " Detects to see if the user is inside math delimiters or not
