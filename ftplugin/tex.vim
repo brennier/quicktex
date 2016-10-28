@@ -15,8 +15,8 @@ if !exists('g:vimtexer_mathobjects')
 endif
 
 if g:vimtexer_mathobjects
-    onoremap am :<c-u>execute "normal! /\\\\)\rf)v?\\\\(\r"<CR>
-    onoremap im :<c-u>execute "normal! /\\\\)\rhv?\\\\(\rll"<CR>
+    onoremap am :<c-u>execute "normal! /\\\\)\\\\|\\\\]\rlv?\\\\(\\\\|\\\\[\r"<CR>
+    onoremap im :<c-u>execute "normal! /\\\\)\\\\|\\\\]\rhv?\\\\(\\\\|\\\\[\r2l"<CR>
     onoremap ap :<c-u>execute "normal! /\\\\right)\rf)v?\\\\left(\r"<CR>
     onoremap ip :<c-u>execute "normal! /\\\\right)\rhv?\\\\left(\r6l"<CR>
 endif
@@ -224,6 +224,7 @@ let g:vimtexer_math = {
     \'exp'   : "\<BS>^{<+++>} <++>",
     \'pow'   : "\<BS>^{<+++>} <++>",
     \'sq'    : "\<BS>^2 ",
+    \'cubed' : "\<BS>^3 ",
     \'inv'   : "\<BS>^{-1} ",
     \'cross' : '\times ',
     \
@@ -238,11 +239,13 @@ let g:vimtexer_math = {
 \'Section: Group Theory' : 'COMMENT',
     \'ord'   : '\ord{ <+++> } <++>',
     \'iso'   : '\iso ',
+    \'sdp'   : '\rtimes ',
     \'niso'  : '\niso ',
     \'subg'  : '\leq ',
     \'nsubg' : '\trianglelefteq ',
     \'mod'   : '/ ',
     \'aut'   : '\aut ',
+    \'hom'   : '\hom ',
     \
 \'Section: Functions' : 'COMMENT',
     \'to'     : '\to ',
@@ -274,6 +277,7 @@ let g:vimtexer_math = {
     \'fa' : '\mathcal{A} ',
     \'fn' : '\mathcal{N} ',
     \'fp' : '\mathcal{P} ',
+    \'ft' : '\mathcal{T} ',
     \'fc' : '\mathcal{C} ',
     \'fm' : '\mathcal{M} ',
     \'ff' : '\mathcal{F} ',
@@ -394,8 +398,9 @@ let g:vimtexer_tex = {
 \'Section: Other Commands' : 'COMMENT',
     \'itm'   : '\item ',
     \'todo'  : '\textcolor{red}{TODO: <+++>} <++>',
-    \'sect'  : '\section*{<+++>}',
-    \'qt'    : " ``<++>'' <++>",
+    \'sect'  : "\\section*{<+++>}\<CR><++>",
+    \'para'  : '(<+++>) <++>',
+    \'qt'    : " ``<+++>'' <++>",
     \'gtg'   : '\textcolor{purple}{<+++>}',
     \
 \'Section: Greek Letters' : 'COMMENT',
