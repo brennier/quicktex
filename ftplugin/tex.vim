@@ -19,6 +19,8 @@ if g:vimtexer_mathobjects
     onoremap im :<c-u>execute "normal! /\\\\)\\\\|\\\\]\rhv?\\\\(\\\\|\\\\[\r2l"<CR>
     onoremap ap :<c-u>execute "normal! /\\\\right)\rf)v?\\\\left(\r"<CR>
     onoremap ip :<c-u>execute "normal! /\\\\right)\rhv?\\\\left(\r6l"<CR>
+    onoremap is :<c-u>execute "normal! ?\\\\section\rjV/\\\\section\rk"<CR>
+    onoremap as :<c-u>execute "normal! ?\\\\section\rV/\\\\section\rk"<CR>
 endif
 
 " <C-r>=[function]() means to call a function and type what it returns as
