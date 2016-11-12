@@ -21,3 +21,6 @@ Some additional features and notes:
 3. `_` will start math mode i.e. `\( <+++> \)` and will switch the filetypes for you. Double spacing with no `<++>`'s left on the line causes you to jump out of math brackets.
 
 4. The expansion can be literal using single quotes (e.g. `'\alpha'`), or "dynamic" using double quotes, which executes the expansion as if it were directly typed. Keep in mind that in a dynamic expansion it is necessary to escape back slashes e.g. `\\`; however, non-alphanumeric keys can be represented as `\<CR>`, `\<BS>`, `\<Right>`, etc.
+
+For a video demonstration (without relevant audio) of what it's like to use vimtexer can be seen at this youtube link:
+[https://www.youtube.com/watch?v=z03-e8zCkl8](https://www.youtube.com/watch?v=z03-e8zCkl8)
