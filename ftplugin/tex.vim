@@ -257,6 +257,7 @@ let g:vimtexer_math = {
     \'sin'    : '\sin{ <+++> } <++>',
     \'cos'    : '\cos{ <+++> } <++>',
     \'tan'    : '\tan{ <+++> } <++>',
+    \'gcd'    : '\gcd( <+++> , <++> ) <++>',
     \'ln'     : '\ln{ <+++> } <++>',
     \'log'    : '\log{ <+++> } <++>',
     \'dfunc'  : '<+++> : <++> \to <++>',
@@ -266,7 +267,7 @@ let g:vimtexer_math = {
     \'case'   : '\begin{cases} <+++> \end{cases} <++>',
     \
 \'Section: LaTeX commands' : 'COMMENT',
-    \'big'    : "è\<ESC>/\\\\)\<CR>lr]?\\\\(\<CR>lr[llcw",
+    \'big'    : "<+++>\<ESC>/\\\\)\<CR>lr]a\<CR>\<ESC>?\\\\(\<CR>lr[",
     \'sub'    : "\<BS>_{<+++>} <++>",
     \'sone'   : "\<BS>_1 ",
     \'stwo'   : "\<BS>_2 ",
@@ -320,7 +321,7 @@ let g:vimtexer_math = {
     \'limsup' : '\limsup ',
     \'liminf' : '\liminf ',
     \'sup'    : '\sup ',
-    \'sinf'    : '\inf ',
+    \'sinf'   : '\inf ',
     \
 \'Section: Diagrams' : 'COMMENT',
     \'arrow' : '\arrow[<+++>] <++>',
