@@ -48,7 +48,8 @@ endfunction
 function! ExpandWord()
     " Move left so that the cursor is over the word and then expand the word
     normal! h
-    let word = expand('<cword>')
+    " Expand the word under the cursor (Note: A word is SPACE-DELIMITED in this context.)
+    let word = expand('<cWORD>')
 
     " If the last character was a space, then JumpFunc
     " It's -1 instead of -2 because we already moved to the left one space
