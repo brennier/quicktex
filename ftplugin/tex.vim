@@ -71,40 +71,32 @@ function! ExpandWord()
     " String of "Rights" for going foward
     let gofwd = substitute(word, '.', "\<Right>", 'g')
 
-    " Checks it see if your in mathmode, if so, use the math dictionary. If
-    " not, check if a dictionary exists for the given filetype. If the
-    " dictionary doesn't exist, then put the original space.
+    " If in math mode, use the mathmode dictionary. Otherwise, use the
+    " filetype dictionary. If the dictionary doesn't have the keyword,
+    " then set it to the empty string, that is ''
     if InMathMode()
-        let dictionary = g:vimtexer_math
-    elseif exists('g:vimtexer_'.&ft)
-        execute 'let dictionary = g:vimtexer_'.&ft
+        let result = get(g:vimtexer_math, word, '')
     else
+        let result = get(g:vimtexer_tex, word, '')
+    endif
+
+    " If the dictionary has no match
+    if result == ''
         return gofwd.' '
     endif
 
-    " Get the result of the keyword. If the keyword doesn't exist in the
-    " dictonary, return the empty string ''
-    let rhs = get(dictionary, word,'')
-
-    " If we found a match in the dictionary
-    if rhs != ''
-        " String of backspaces to delete word
-        let delword = substitute(word, '.', "\<BS>", 'g')
-        " If the RHS contains the identifier "<+++>", then your cursor will be
-        " placed there automatically after the subsitution.
-        if rhs =~ '<+++>'
-            let jumpBack = "\<ESC>?<+++>\<CR>cf>"
-        else
-            let jumpBack = ''
-        endif
-        " Go forward, delete the original word, replace it with the result of
-        " the dictionary, and then jump back if needed
-        return gofwd.delword.rhs.jumpBack
+    " String of backspaces to delete word
+    let delword = substitute(word, '.', "\<BS>", 'g')
+    " If the result contains the identifier "<+++>", then your cursor will be
+    " placed there automatically after the subsitution.
+    if result =~ '<+++>'
+        let jumpBack = "\<ESC>?<+++>\<CR>cf>"
     else
-        " If the dictionary doesn't exist, go forward and put the original
-        " space
-        return gofwd.' '
+        let jumpBack = ''
     endif
+    " Go forward, delete the original word, replace it with the result of
+    " the dictionary, and then jump back if needed
+    return gofwd.delword.result.jumpBack
 endfunction
 " }}}
 
