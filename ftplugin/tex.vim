@@ -46,26 +46,40 @@ function! InMathMode()
 endfunction
 
 function! ExpandWord()
-    " Move left so that the cursor is over the word and then expand the word
-    normal! h
-    let word = expand('<cword>')
+    " Get the current line and the column number of the last character
+    let line = getline('.')
+    let column = col('.')-2
 
-    " If the last character was a space, then JumpFunc
-    " It's -1 instead of -2 because we already moved to the left one space
-    if getline('.')[col(".")-1] == " "
-        return "\<Right>\<BS>\<ESC>/<+.*+>\<CR>cf>"
+    " If the last character was a space, then delete it and jump to the next
+    " instance of <+.*+>
+    if line[column] == ' '
+        return "\<BS>\<ESC>/<+.*+>\<CR>cf>"
     endif
+
+    " If the last character doesn't exist (i.e. you are at the beginning of
+    " the line), then just insert a space. Otherwise, go to the beginning of
+    " the last space-delimited word
+    if column == -1
+        return ' '
+    else
+        normal! B
+    endif
+
+    " Get the word inbetween the new cursor position and the saved position
+    let word = line[col('.')-1:column]
+
+    " String of "Rights" for going foward
+    let gofwd = substitute(word, '.', "\<Right>", 'g')
 
     " Checks it see if your in mathmode, if so, use the math dictionary. If
     " not, check if a dictionary exists for the given filetype. If the
-    " dictionary doesn't exist, remember, we moved left and are over the last
-    " character of the word, so move right and put the original space
+    " dictionary doesn't exist, then put the original space.
     if InMathMode()
         let dictionary = g:vimtexer_math
     elseif exists('g:vimtexer_'.&ft)
-        execute "let dictionary = g:vimtexer_".&ft
+        execute 'let dictionary = g:vimtexer_'.&ft
     else
-        return "\<Right> "
+        return gofwd.' '
     endif
 
     " Get the result of the keyword. If the keyword doesn't exist in the
@@ -74,23 +88,22 @@ function! ExpandWord()
 
     " If we found a match in the dictionary
     if rhs != ''
-        let jumpBack = ""
+        " String of backspaces to delete word
+        let delword = substitute(word, '.', "\<BS>", 'g')
         " If the RHS contains the identifier "<+++>", then your cursor will be
-        " placed there automatically after the subsitution. Notice that, in
-        " general, the JumpFunc goes to "<++>" instead
+        " placed there automatically after the subsitution.
         if rhs =~ '<+++>'
             let jumpBack = "\<ESC>?<+++>\<CR>cf>"
+        else
+            let jumpBack = ''
         endif
-        " This is a hack for one letter keywords. It types an extra letter and
-        " escapes, so now it's two letters
-        let hack = "a\<ESC>"
-        " Do the hack, then delete the word and go to insert mode, then type
-        " out the right hand side then jump back to "<+++>"
-        return hack."ciw".rhs.jumpBack
+        " Go forward, delete the original word, replace it with the result of
+        " the dictionary, and then jump back if needed
+        return gofwd.delword.rhs.jumpBack
     else
-        " If the dictionary doesn't exist, remember, we moved left and are over
-        " the last character of the word, so move right and put the original space
-        return "\<Right> "
+        " If the dictionary doesn't exist, go forward and put the original
+        " space
+        return gofwd.' '
     endif
 endfunction
 " }}}
