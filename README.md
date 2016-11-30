@@ -1,4 +1,4 @@
-## Vimtexer is a template expander, specifically for quickly writing LaTeX
+## Vimtexer is a template expander for quickly writing LaTeX
 
 Preset keywords are expanded into other literal keypresses. These expansions are filetype specifc. For example, if you using the default dictionaries, then typing 'prf' in a tex file will replace the word and expand into:
 
@@ -16,7 +16,7 @@ The expansion can be literal using single quotes (e.g. `'\alpha'`), or "dynamic"
 
 For more information, see the source code, which is heavily documented.
 
-Now, you may be thinking "With all those other Snippet/Template Expander VIM plugins out there, why should I use vimtexer?". Well, here are some differences:
+## Why should I use Vimtexer instead of another plugin?
 
 1. Vimtexer is made for LaTeX. In fact, it doesn't even load on any other filetype, so you can be sure that it won't slow you down when you're not typing LaTeX. Setting `g:vimtexer_mathkeyword` (by default `_`) will allow you to set a keyword which expands into math mode i.e. `\( <+++> \) <++>`.
 
