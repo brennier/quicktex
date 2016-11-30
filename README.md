@@ -26,8 +26,8 @@ For more information, see the source code, which is heavily documented.
 
 4. Vimtexter has built-in jump function capabilites. You can set jump points in your expansions to quickly get around!
 
-5. Vimtexer is FAST. Since the code is so small and written completely in Vimscript, vimtexer can expand very quickly. Vimtexer is much faster than programming similar functionality into a Snippets program, especially when you include the context dependence.
+5. Vimtexer is FAST. Since the code is so small and written completely in vimscript, vimtexer can expand very quickly. Vimtexer is much faster than programming similar functionality into a snippets plugin, especially when you include the context dependence.
 
-For a video demonstration (without relevant audio) of what it's like to use vimtexer, click the image below:
+For a video demonstration (without audio) of what it's like to use vimtexer, click the image below:
 [![https://www.youtube.com/watch?v=z03-e8zCkl8](https://img.youtube.com/vi/z03-e8zCkl8/0.jpg)](https://www.youtube.com/watch?v=z03-e8zCkl8)
 
