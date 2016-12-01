@@ -4,15 +4,7 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Nov 30, 2016
-
-if exists('g:vimtexer_usedefault') && g:vimtexer_usedefault == 1
-    " Do nothing. The default_keywords.vim file will load a dictionaries.
-elseif !exists('g:vimtexer_'.&ft)
-    " Otherwise, if no dictionary exists for the filetype, don't load the
-    " plugin
-    finish
-endif
+" Last Edit: Dec 01, 2016
 
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
@@ -36,9 +28,9 @@ function! InMathMode()
 endfunction
 
 " If JumpFunc is on, then delete the last character and then jump to the next
-" instance of <+.*+>
+" instance of <+.*+>. At the moment, jumping is only available in tex files
 function! JumpFunc()
-    if exists('g:vimtexer_jumpfunc') && g:vimtexer_jumpfunc == 1
+    if exists('g:vimtexer_jumpfunc') && g:vimtexer_jumpfunc == 1 && &ft == 'tex'
         return "\<BS>\<ESC>/<+.*+>\<CR>cf>"
     else
         return ' '
@@ -46,35 +38,34 @@ function! JumpFunc()
 endfunc
 
 function! ExpandWord()
-    " Get the current line and the column number of the last character
+    " Get the current line and the column number of the end of the last typed
+    " word
     let line = getline('.')
-    let column = col('.')-2
+    let end = col('.')-2
 
     " If the last character was a space, then delete it and jump to the next
     " instance of <+.*+>
-    if line[column] == ' '
+    if line[end] == ' '
         return JumpFunc()
     endif
 
-    " If the last character doesn't exist (i.e. you are at the beginning of
-    " the line), then just insert a space. Otherwise, go to the beginning of
-    " the last space-delimited word
-    if column == -1
+    " If a dictionary for this filetype doesn't exist, don't do anything.
+    if !exists('g:vimtexer_'.&ft)
         return ' '
-    else
-        normal! B
     endif
 
-    " Get the word inbetween the new cursor position and the saved position
-    let word = line[col('.')-1:column]
+    " Find either the first character after a space or the beginning of the
+    " line, whichever is closer. This matches the first character of the last
+    " typed word. Get the column number and subtract one to get where the last
+    " word begins.
+    let begin = searchpos('\s\zs\|^', 'nbW')[1] - 1
 
-    " String of "Rights" for going foward
-    let gofwd = substitute(word, '.', "\<Right>", 'g')
+    let word = line[begin:end]
 
     " If the filetype is tex, there's a mathmode dictionary available, and
     " you're in mathmode, then use that dictionary. Otherwise, use the
-    " filetype dictionary. This must exists because of the check at the top of
-    " the program. If the dictionary doesn't have the keyword, then set it to
+    " filetype dictionary. This must exists because of the previous check in
+    " this function. If the dictionary doesn't have the keyword, then set it to
     " the empty string, that is ''
     if &ft == 'tex' && exists('g:vimtexer_math') && InMathMode()
         let result = get(g:vimtexer_math, word, '')
@@ -84,7 +75,7 @@ function! ExpandWord()
 
     " If the dictionary has no match
     if result == ''
-        return gofwd.' '
+        return ' '
     endif
 
     " String of backspaces to delete word
@@ -98,5 +89,5 @@ function! ExpandWord()
     endif
     " Go forward, delete the original word, replace it with the result of
     " the dictionary, and then jump back if needed
-    return gofwd.delword.result.jumpBack
+    return delword.result.jumpBack
 endfunction
