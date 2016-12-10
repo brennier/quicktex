@@ -189,6 +189,7 @@ let g:vimtexer_math = {
     \'ff' : '\mathcal{F} ',
     \'fb' : '\mathcal{B} ',
     \'fl' : '\mathcal{L} ',
+    \'fv' : '\mathcal{V} ',
     \
 \'Section: Encapsulating keywords' : 'COMMENT',
     \'bar'  : "\<ESC>F a\\bar{\<ESC>f i} ",
