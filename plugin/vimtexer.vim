@@ -58,9 +58,10 @@ function! ExpandWord()
     " line, whichever is closer. This matches the first character of the last
     " typed word. Get the column number and subtract one to get where the last
     " word begins.
-    let begin = searchpos('\s\zs\|^', 'nbW')[1] - 1
+    let begin = searchpos('^\s*\zs\|\s\zs', 'nbW')[1] - 1
 
     let word = line[begin:end]
+    echom word
 
     " If the filetype is tex, there's a mathmode dictionary available, and
     " you're in mathmode, then use that dictionary. Otherwise, use the
