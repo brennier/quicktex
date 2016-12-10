@@ -61,7 +61,6 @@ function! ExpandWord()
     let begin = searchpos('^\s*\zs\|\s\zs', 'nbW')[1] - 1
 
     let word = line[begin:end]
-    echom word
 
     " If the filetype is tex, there's a mathmode dictionary available, and
     " you're in mathmode, then use that dictionary. Otherwise, use the
