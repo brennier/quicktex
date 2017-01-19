@@ -1,6 +1,11 @@
-if !exists('g:vimtexer_usedefault') || g:vimtexer_usedefault == 0
+if exists('g:vimtexer_usedefault') && g:vimtexer_usedefault == 0
     finish
 endif
+
+if exists('g:vimtexer_math') || exists('g:vimtexer_tex')
+    finish
+endif
+
 " Keyword mappings are simply a dictionary. Dictionaries are of the form
 " "vimtexer_" and then the filetype. The result of a keyword is either a
 " literal string or a double quoted string, depending on what you want.
