@@ -23,7 +23,7 @@ let g:vimtexer_tex = {
     \'prf' : "\\begin{proof}\<CR><++>\<CR>\\end{proof}"
 /}
 ```
-This dictionary would expand `alpha` as `\(\alpha\)` and would expand `prf` in the manner shown in the first section of this readme. Keep in mind that you need a backslashs at the beginning of the lines in muitiline defitinitions in vimscript.
+This dictionary would expand `alpha` as `\(\alpha\)` and would expand `prf` in the manner shown in the first section of this readme. Keep in mind that you need a backslashs at the beginning of the lines in muitiline definitions in vimscript.
 
 For more information, see the source code, which is heavily documented and always up-to-date.
 
