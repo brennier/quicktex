@@ -10,11 +10,22 @@ Preset keywords are expanded into other literal keypresses. These expansions are
 
 After an expansion, your cursor is placed in the place of the `<+++>` and you will remain in insert mode in order to continue seamlessly typing. This expansion occurs automatically after typing a space.
 
-These keywords and expansions are stored as dictionaries for each filetype. This program contains a few dictionaries and several mappings by default. You can override these defaults by adding a dictionary of the form `g:vimtexer_<filetype>` in your personal vim config.
+## Configuration
 
-The expansion can be literal using single quotes (e.g. `'\alpha'`), or "dynamic" using double quotes, which executes the expansion as if it were directly typed. Keep in mind that in a dynamic expansion it is necessary to escape back slashes e.g. `\\`; however, non-alphanumeric keys can be represented as `\<CR>`, `\<BS>`, `\<Right>`, etc.
+Once you have added vimtexer to your vim plugins (either through vundle, vim-plug, pathogen, or even just copying the files manually), then you need to make a dictionary for each filetype you want to use vimtexer with. There are default dictionaries for tex files, but these can be changed at any point, so it's highly recommended that you create your own. The dictionaries should be named `g:vimtexer_<filetype>`, with one expection: the dictionary `g:vimtexer_math`, which represents expansions that should only occur when in math mode in latex files. The keywords can be any string without whitespace and resulting values can be either literal strings (using single quotes) or a string with keypress expansions (using double quotes). Keypress expansions are things like `\<CR>`, `\<BS>`, or `\<Right>` that one would find in vim remappings. Keep in mind that `\`'s need to be escaped (i.e. `\\`) when using double quoted strings.
 
-For more information, see the source code, which is heavily documented.
+If the resulting value has a `<+++>` in it, that is where your cursor will be placed after the expansion. This plugin also has jump function support (only for latex files at the moment). That is, if you set `let g:vimtexer_jumpfunc = 1` in your vimrc, every time you hit double space, you will jump to the next `<++>` (note that this is different from `<+++>`). Thus, you can put `<++>`'s in the result of a dictionary keyword in order to easily jump around the expanded result.
+
+An example dictionary:
+```vim
+let g:vimtexer_tex = {
+    \'alpha' : '\alpha ',
+    \'prf' : "\\begin{proof}\<CR><++>\<CR>\\end{proof}"
+/}
+```
+This dictionary would expand `alpha` as `\(\alpha\)` and would expand `prf` in the manner shown in the first section of this readme. Keep in mind that you need a backslashs at the beginning of the lines in muitiline defitinitions in vimscript.
+
+For more information, see the source code, which is heavily documented and always up-to-date.
 
 ## Why should I use Vimtexer instead of another plugin?
 
