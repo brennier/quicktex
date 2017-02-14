@@ -4,17 +4,25 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Dec 01, 2016
+" Last Edit: Feb 14, 2017
+
+" Changelog:
+" 1) Added support for other math environments
+" 2) Separated mathmode delimiters into two lists for easy editing
+" 2) Delimit the beginning of a keyword by a { or by a space
 
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
 inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 
+let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}', '\\begin{multline}',]
+let s:endMathModes = ['\\)', '\\]', '\\end{equation}',   '\\end{displaymath}',   '\\end{multline}',  ]
+
 " Detects to see if the user is inside math delimiters or not
 function! InMathMode()
     " Find the line number and column number for the last \( and \) (or \[ and \])
-    let [lnum1, col1] = searchpos('\\(\|\\[','nbW')
-    let [lnum2, col2] = searchpos('\\)\|\\]','nbW')
+    let [lnum1, col1] = searchpos(join(s:begMathModes,'\|'), 'nbW')
+    let [lnum2, col2] = searchpos(join(s:endMathModes,'\|'), 'nbW')
 
     " See if the last \) (or \]) occured after the last \( (or \[), if it did,
     " then you're in math mode, as the \( or \[ hasn't been closed yet.
@@ -58,7 +66,7 @@ function! ExpandWord()
     " line, whichever is closer. This matches the first character of the last
     " typed word. Get the column number and subtract one to get where the last
     " word begins.
-    let begin = searchpos('^\s*\zs\|\s\zs', 'nbW')[1] - 1
+    let begin = searchpos('^\s*\zs\|\s\zs\|{\zs', 'nbW')[1] - 1
 
     let word = line[begin:end]
 
