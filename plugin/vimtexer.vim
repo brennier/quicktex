@@ -11,6 +11,9 @@
 " 2) Delimit math keywords by a space, {, or (
 " 3) Added more math environments
 
+" If the variable doesn't exist, set to its default value
+let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 0)
+
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
 inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
@@ -40,38 +43,29 @@ function! InMathMode()
     endif
 endfunction
 
-" If JumpFunc is on, then delete the last character and then jump to the next
-" instance of <+.*+>. At the moment, jumping is only available in tex files.
-function! JumpFunc()
-    if exists('g:vimtexer_jumpfunc') && g:vimtexer_jumpfunc == 1 && &ft == 'tex'
-        return "\<BS>\<ESC>/<+.*+>\<CR>cf>"
-    else
-        return ' '
-    endif
-endfunc
-
 function! ExpandWord()
     " Get the current line and the column number of the end of the last typed
     " word
     let line = getline('.')
     let end = col('.')-2
 
-    " If the last character was a space, then call JumpFunc.
-    if line[end] == ' '
-        return JumpFunc()
+    " If the last character was a space and jumpfunc is on, then delete the
+    " space and jump to the nextinstance of <+.*+>. At the moment, jumping
+    " is only available in tex files.
+    if &ft == 'tex' && line[end] == ' ' && g:vimtexer_jumpfunc == 1
+        return "\<BS>\<ESC>/<+.*+>\<CR>cf>"
     endif
 
     " If a dictionary for this filetype doesn't exist, don't do anything.
     if !exists('g:vimtexer_'.&ft)
         return ' '
     endif
-
+    
     " Find either the first character after a space or the beginning of the
     " line, whichever is closer. This matches the first character of the last
     " typed word. Get the column number and subtract one to get where the last
     " word begins.
     let begin = searchpos('^\s*\zs\|\s\zs', 'nbW')[1] - 1
-
     let word = line[begin:end]
 
     " If the filetype is tex, there's a mathmode dictionary available, and
