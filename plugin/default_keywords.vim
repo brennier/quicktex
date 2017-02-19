@@ -1,8 +1,8 @@
-if exists('g:vimtexer_usedefault') && g:vimtexer_usedefault == 0
+if !get(g:, 'vimtexer_usedefault', 1)
     finish
 endif
 
-if exists('g:vimtexer_math') || exists('g:vimtexer_tex')
+if exists('g:vimtexer_tex') || exists('g:vimtexer_math')
     finish
 endif
 
