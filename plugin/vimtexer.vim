@@ -12,7 +12,7 @@
 " 3) Added more math environments
 
 " If the variable doesn't exist, set to its default value
-let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 0)
+let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 1)
 
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
