@@ -4,19 +4,19 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Feb 14, 2017
+" Last Edit: Feb 19, 2017
 
 " Changelog:
-" 1) Added support for other math environments
-" 2) Separated mathmode delimiters into two lists for easy editing
-" 2) Delimit the beginning of a keyword by a { or by a space
+" 1) Fixed bug when expanding after a {
+" 2) Delimit math keywords by a space, {, or (
+" 3) Added more math environments
 
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
 inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 
-let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}', '\\begin{multline}',]
-let s:endMathModes = ['\\)', '\\]', '\\end{equation}',   '\\end{displaymath}',   '\\end{multline}',  ]
+let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}', '\\begin{multline}', '\\begin{gather}', '\\begin{align}', '\\begin{multline*}', '\\begin{gather*}', '\\begin{align*}', '\\begin{equation*}']
+let s:endMathModes = ['\\(', '\\[', '\\end{equation}', '\\end{displaymath}', '\\end{multline}', '\\end{gather}', '\\end{align}', '\\end{multline*}', '\\end{gather*}', '\\end{align*}', '\\end{equation*}']
 
 " Detects to see if the user is inside math delimiters or not
 function! InMathMode()
@@ -66,7 +66,7 @@ function! ExpandWord()
     " line, whichever is closer. This matches the first character of the last
     " typed word. Get the column number and subtract one to get where the last
     " word begins.
-    let begin = searchpos('^\s*\zs\|\s\zs\|{\zs', 'nbW')[1] - 1
+    let begin = searchpos('^\s*\zs\|\s\zs', 'nbW')[1] - 1
 
     let word = line[begin:end]
 
@@ -76,6 +76,7 @@ function! ExpandWord()
     " this function. If the dictionary doesn't have the keyword, then set it to
     " the empty string, that is ''
     if &ft == 'tex' && exists('g:vimtexer_math') && InMathMode()
+        let word = split(word, '{\|(')[-1]
         let result = get(g:vimtexer_math, word, '')
     else
         execute 'let result = get(g:vimtexer_'.&ft.', word, "")'
