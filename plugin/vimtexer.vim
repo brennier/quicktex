@@ -15,17 +15,22 @@
 " if you were actually presses the keys yourself
 inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 
-let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}', '\\begin{multline}', '\\begin{gather}', '\\begin{align}', '\\begin{multline*}', '\\begin{gather*}', '\\begin{align*}', '\\begin{equation*}']
-let s:endMathModes = ['\\(', '\\[', '\\end{equation}', '\\end{displaymath}', '\\end{multline}', '\\end{gather}', '\\end{align}', '\\end{multline*}', '\\end{gather*}', '\\end{align*}', '\\end{equation*}']
+let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}',
+    \'\\begin{multline}', '\\begin{gather}', '\\begin{align}', '\\begin{multline*}',
+    \'\\begin{gather*}', '\\begin{align*}', '\\begin{equation*}']
+let s:endMathModes = ['\\)', '\\]', '\\end{equation}', '\\end{displaymath}',
+    \'\\end{multline}', '\\end{gather}', '\\end{align}', '\\end{multline*}',
+    \'\\end{gather*}', '\\end{align*}', '\\end{equation*}']
 
 " Detects to see if the user is inside math delimiters or not
 function! InMathMode()
-    " Find the line number and column number for the last \( and \) (or \[ and \])
+    " Find the line number and column number for the last math delimiters
     let [lnum1, col1] = searchpos(join(s:begMathModes,'\|'), 'nbW')
     let [lnum2, col2] = searchpos(join(s:endMathModes,'\|'), 'nbW')
 
-    " See if the last \) (or \]) occured after the last \( (or \[), if it did,
-    " then you're in math mode, as the \( or \[ hasn't been closed yet.
+    " See if the last math mode ending delimiter occured after the last math
+    " mode beginning delimiter. If not, then you're in math mode. This works
+    " because you can't have math mode delimiters inside math mode delimiters.
     if lnum1 > lnum2
         return 1
     elseif lnum1 == lnum2 && col1 > col2
@@ -36,7 +41,7 @@ function! InMathMode()
 endfunction
 
 " If JumpFunc is on, then delete the last character and then jump to the next
-" instance of <+.*+>. At the moment, jumping is only available in tex files
+" instance of <+.*+>. At the moment, jumping is only available in tex files.
 function! JumpFunc()
     if exists('g:vimtexer_jumpfunc') && g:vimtexer_jumpfunc == 1 && &ft == 'tex'
         return "\<BS>\<ESC>/<+.*+>\<CR>cf>"
@@ -51,8 +56,7 @@ function! ExpandWord()
     let line = getline('.')
     let end = col('.')-2
 
-    " If the last character was a space, then delete it and jump to the next
-    " instance of <+.*+>
+    " If the last character was a space, then call JumpFunc.
     if line[end] == ' '
         return JumpFunc()
     endif
@@ -72,10 +76,11 @@ function! ExpandWord()
 
     " If the filetype is tex, there's a mathmode dictionary available, and
     " you're in mathmode, then use that dictionary. Otherwise, use the
-    " filetype dictionary. This must exists because of the previous check in
-    " this function. If the dictionary doesn't have the keyword, then set it to
-    " the empty string, that is ''
+    " filetype dictionary. This must exists because of the previous check. If
+    " the dictionary doesn't have the keyword, then set it to the empty
+    " string.
     if &ft == 'tex' && exists('g:vimtexer_math') && InMathMode()
+        " Use ( and { to delimit the beginning of a math keyword
         let word = split(word, '{\|(')[-1]
         let result = get(g:vimtexer_math, word, '')
     else
@@ -96,7 +101,7 @@ function! ExpandWord()
     else
         let jumpBack = ''
     endif
-    " Go forward, delete the original word, replace it with the result of
-    " the dictionary, and then jump back if needed
+    " Delete the original word, replace it with the result of the dictionary,
+    " and then jump back if needed
     return delword.result.jumpBack
 endfunction
