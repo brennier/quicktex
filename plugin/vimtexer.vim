@@ -8,8 +8,8 @@
 
 " Changelog:
 " 1) Fixed bug when expanding after a {
-" 2) Delimit math keywords by a space, {, or (
-" 3) Added more math environments
+" 2) Delimit math keywords by a space, {, (, [, or "
+" 3) Added many more math environments
 
 " If the variable doesn't exist, set to its default value
 let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 1)
@@ -18,12 +18,16 @@ let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 1)
 " if you were actually presses the keys yourself
 inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 
+" Set the delimiters for math mode. The order doesn't matter, as it's
+" impossible to have nested math modes.
 let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}',
-    \'\\begin{multline}', '\\begin{gather}', '\\begin{align}', '\\begin{multline*}',
-    \'\\begin{gather*}', '\\begin{align*}', '\\begin{equation*}']
+            \'\\begin{multline}', '\\begin{gather}', '\\begin{align}',
+            \'\\begin{multline*}', '\\begin{gather*}', '\\begin{align*}',
+            \'\\begin{equation*}']
 let s:endMathModes = ['\\)', '\\]', '\\end{equation}', '\\end{displaymath}',
-    \'\\end{multline}', '\\end{gather}', '\\end{align}', '\\end{multline*}',
-    \'\\end{gather*}', '\\end{align*}', '\\end{equation*}']
+            \'\\end{multline}', '\\end{gather}', '\\end{align}',
+            \'\\end{multline*}', '\\end{gather*}', '\\end{align*}',
+            \'\\end{equation*}']
 
 " Detects to see if the user is inside math delimiters or not
 function! InMathMode()
@@ -44,6 +48,11 @@ function! InMathMode()
 endfunction
 
 function! ExpandWord()
+    " If a dictionary for this filetype doesn't exist, don't do anything.
+    if !exists('g:vimtexer_'.&ft)
+        return ' '
+    endif
+
     " Get the current line and the column number of the end of the last typed
     " word
     let line = getline('.')
@@ -56,11 +65,6 @@ function! ExpandWord()
         return "\<BS>\<ESC>/<+.*+>\<CR>cf>"
     endif
 
-    " If a dictionary for this filetype doesn't exist, don't do anything.
-    if !exists('g:vimtexer_'.&ft)
-        return ' '
-    endif
-    
     " Find either the first character after a space or the beginning of the
     " line, whichever is closer. This matches the first character of the last
     " typed word. Get the column number and subtract one to get where the last
@@ -74,8 +78,8 @@ function! ExpandWord()
     " the dictionary doesn't have the keyword, then set it to the empty
     " string.
     if &ft == 'tex' && exists('g:vimtexer_math') && InMathMode()
-        " Use ( and { to delimit the beginning of a math keyword
-        let word = split(word, '{\|(')[-1]
+        " Use (, {, [, and " to delimit the beginning of a math keyword
+        let word = split(word, '{\|(\|[\|"')[-1]
         let result = get(g:vimtexer_math, word, '')
     else
         execute 'let result = get(g:vimtexer_'.&ft.', word, "")'

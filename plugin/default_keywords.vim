@@ -224,7 +224,7 @@ let g:vimtexer_math = {
     \'sinf'   : '\inf ',
     \
 \'Section: Diagrams' : 'COMMENT',
-    \'arrow' : '\arrow[<+++>] <++>',
+    \'arrow' : '\arrow[<+++>]{<+direction+>}{<+label+>} <++>',
     \
 \}
 
