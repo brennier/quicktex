@@ -48,11 +48,6 @@ function! InMathMode()
 endfunction
 
 function! ExpandWord()
-    " If a dictionary for this filetype doesn't exist, don't do anything.
-    if !exists('g:vimtexer_'.&ft)
-        return ' '
-    endif
-
     " Get the current line and the column number of the end of the last typed
     " word
     let line = getline('.')
@@ -70,25 +65,23 @@ function! ExpandWord()
     " typed word. Get the column number and subtract one to get where the last
     " word begins.
     let begin = searchpos('^\s*\zs\|\s\zs', 'nbW')[1] - 1
-    let word = line[begin:end]
+    let word  = line[begin:end]
 
-    " If the filetype is tex, there's a mathmode dictionary available, and
-    " you're in mathmode, then use that dictionary. Otherwise, use the
-    " filetype dictionary. This must exists because of the previous check. If
-    " the dictionary doesn't have the keyword, then set it to the empty
-    " string.
-    if &ft == 'tex' && exists('g:vimtexer_math') && InMathMode()
-        " Use (, {, [, and " to delimit the beginning of a math keyword
-        let word = split(word, '{\|(\|[\|"')[-1]
-        let result = get(g:vimtexer_math, word, '')
-    else
-        execute 'let result = get(g:vimtexer_'.&ft.', word, "")'
-    endif
-
-    " If the dictionary has no match
-    if result == ''
+    " If the filetype is tex and you're in mathmode, then use that dictionary.
+    " Otherwise, use the filetype dictionary. If anything fails, such as the
+    " dictionary lookup, the existence of dictionaries, etc., then just put
+    " the original space.
+    try
+        if &ft == 'tex' && InMathMode()
+            " Use (, {, [, and " to delimit the beginning of a math keyword
+            let word = split(word, '{\|(\|[\|"')[-1]
+            let result = g:vimtexer_math[word]
+        else
+            execute 'let result = g:vimtexer_'.&ft.'[word]'
+        endif
+    catch
         return ' '
-    endif
+    endtry
 
     " String of backspaces to delete word
     let delword = substitute(word, '.', "\<BS>", 'g')
