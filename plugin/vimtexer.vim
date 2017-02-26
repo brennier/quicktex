@@ -22,12 +22,12 @@ inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
 " impossible to have nested math modes.
 let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}',
             \'\\begin{multline}', '\\begin{gather}', '\\begin{align}',
-            \'\\begin{multline*}', '\\begin{gather*}', '\\begin{align*}',
-            \'\\begin{equation*}']
+            \'\\begin{multline\*}', '\\begin{gather\*}', '\\begin{align\*}',
+            \'\\begin{equation\*}']
 let s:endMathModes = ['\\)', '\\]', '\\end{equation}', '\\end{displaymath}',
             \'\\end{multline}', '\\end{gather}', '\\end{align}',
-            \'\\end{multline*}', '\\end{gather*}', '\\end{align*}',
-            \'\\end{equation*}']
+            \'\\end{multline\*}', '\\end{gather\*}', '\\end{align\*}',
+            \'\\end{equation\*}']
 
 " Detects to see if the user is inside math delimiters or not
 function! InMathMode()
@@ -51,7 +51,7 @@ function! ExpandWord()
     " Get the current line and the column number of the end of the last typed
     " word
     let line = getline('.')
-    let end = col('.')-2
+    let end  = col('.')-2
 
     " If the last character was a space and jumpfunc is on, then delete the
     " space and jump to the nextinstance of <+.*+>. At the moment, jumping
