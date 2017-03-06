@@ -4,19 +4,26 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Feb 19, 2017
+" Last Edit: Mar 05, 2017
 
 " Changelog:
-" 1) Fixed bug when expanding after a {
-" 2) Delimit math keywords by a space, {, (, [, or "
-" 3) Added many more math environments
+" 1) Restore default register after expansion
+" 2) Assign expander only if the dictionary exists
+" 3) Rescope functions
+" 4) Make comparsions case-sensitive
 
 " If the variable doesn't exist, set to its default value
 let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 1)
 
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually presses the keys yourself
-inoremap <silent> <Space> <C-r>=ExpandWord()<CR>
+autocmd FileType * call AssignExpander()
+
+function! AssignExpander()
+    if exists('g:vimtexer_'.&ft)
+        inoremap <silent> <buffer> <Space> <C-r>=<SID>ExpandWord(&ft)<CR>
+    endif
+endfunction
 
 " Set the delimiters for math mode. The order doesn't matter, as it's
 " impossible to have nested math modes.
@@ -30,7 +37,7 @@ let s:endMathModes = ['\\)', '\\]', '\\end{equation}', '\\end{displaymath}',
             \'\\end{equation\*}']
 
 " Detects to see if the user is inside math delimiters or not
-function! InMathMode()
+function! s:InMathMode()
     " Find the line number and column number for the last math delimiters
     let [lnum1, col1] = searchpos(join(s:begMathModes,'\|'), 'nbW')
     let [lnum2, col2] = searchpos(join(s:endMathModes,'\|'), 'nbW')
@@ -38,16 +45,19 @@ function! InMathMode()
     " See if the last math mode ending delimiter occured after the last math
     " mode beginning delimiter. If not, then you're in math mode. This works
     " because you can't have math mode delimiters inside math mode delimiters.
-    if lnum1 > lnum2
-        return 1
-    elseif lnum1 == lnum2 && col1 > col2
+    if (lnum1 > lnum2) || (lnum1 ==# lnum2 && col1 > col2)
         return 1
     else
         return 0
     endif
 endfunction
 
-function! ExpandWord()
+function! s:ExpandWord(ft)
+    " Save a copy of the default register and set up a string of commands for
+    " restoring the register.
+    let old_reg = getreg('@')
+    let restore = "\<ESC>:call setreg('@',\"".old_reg."\")\<CR>a"
+
     " Get the current line and the column number of the end of the last typed
     " word
     let line = getline('.')
@@ -55,9 +65,10 @@ function! ExpandWord()
 
     " If the last character was a space and jumpfunc is on, then delete the
     " space and jump to the nextinstance of <+.*+>. At the moment, jumping
-    " is only available in tex files.
-    if &ft == 'tex' && line[end] == ' ' && g:vimtexer_jumpfunc == 1
-        return "\<BS>\<ESC>/<+.*+>\<CR>cf>"
+    " is only available in tex files. Also, restore the default register
+    " after jumping.
+    if a:ft ==# 'tex' && line[end] ==# ' ' && g:vimtexer_jumpfunc ==# 1
+        return "\<BS>\<ESC>/<+.*+>\<CR>cf>".restore
     endif
 
     " Find either the first character after a space or the beginning of the
@@ -72,12 +83,16 @@ function! ExpandWord()
     " dictionary lookup, the existence of dictionaries, etc., then just put
     " the original space.
     try
-        if &ft == 'tex' && InMathMode()
+        if a:ft ==# 'tex' && s:InMathMode()
             " Use (, {, [, and " to delimit the beginning of a math keyword
             let word = split(word, '{\|(\|[\|"')[-1]
             let result = g:vimtexer_math[word]
         else
-            execute 'let result = g:vimtexer_'.&ft.'[word]'
+            try
+                execute 'let result = g:vimtexer_'.a:ft.'[word]'
+            catch
+                let result = g:vimtexer_default[word]
+            endtry
         endif
     catch
         return ' '
@@ -92,7 +107,8 @@ function! ExpandWord()
     else
         let jumpBack = ''
     endif
+
     " Delete the original word, replace it with the result of the dictionary,
-    " and then jump back if needed
-    return delword.result.jumpBack
+    " jump back if needed, and then restore the default register.
+    return delword.result.jumpBack.restore
 endfunction
