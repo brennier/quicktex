@@ -4,13 +4,10 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Mar 05, 2017
+" Last Edit: Mar 06, 2017
 
 " Changelog:
-" 1) Restore default register after expansion
-" 2) Assign expander only if the dictionary exists
-" 3) Rescope functions
-" 4) Make comparsions case-sensitive
+" 1) Delete to black hole register, so there's no need to restore
 
 " If the variable doesn't exist, set to its default value
 let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 1)
@@ -53,11 +50,6 @@ function! s:InMathMode()
 endfunction
 
 function! s:ExpandWord(ft)
-    " Save a copy of the default register and set up a string of commands for
-    " restoring the register.
-    let old_reg = getreg('@')
-    let restore = "\<ESC>:call setreg('@',\"".old_reg."\")\<CR>a"
-
     " Get the current line and the column number of the end of the last typed
     " word
     let line = getline('.')
@@ -65,10 +57,9 @@ function! s:ExpandWord(ft)
 
     " If the last character was a space and jumpfunc is on, then delete the
     " space and jump to the nextinstance of <+.*+>. At the moment, jumping
-    " is only available in tex files. Also, restore the default register
-    " after jumping.
+    " is only available in tex files.
     if a:ft ==# 'tex' && line[end] ==# ' ' && g:vimtexer_jumpfunc ==# 1
-        return "\<BS>\<ESC>/<+.*+>\<CR>cf>".restore
+        return "\<BS>\<ESC>/<+.*+>\<CR>\"_cf>"
     endif
 
     " Find either the first character after a space or the beginning of the
@@ -103,12 +94,12 @@ function! s:ExpandWord(ft)
     " If the result contains the identifier "<+++>", then your cursor will be
     " placed there automatically after the subsitution.
     if result =~ '<+++>'
-        let jumpBack = "\<ESC>?<+++>\<CR>cf>"
+        let jumpBack = "\<ESC>?<+++>\<CR>\"_cf>"
     else
         let jumpBack = ''
     endif
 
     " Delete the original word, replace it with the result of the dictionary,
-    " jump back if needed, and then restore the default register.
-    return delword.result.jumpBack.restore
+    " and jump back if needed.
+    return delword.result.jumpBack
 endfunction
