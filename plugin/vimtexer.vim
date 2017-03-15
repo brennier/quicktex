@@ -6,9 +6,6 @@
 " includes different namespaces for inside and outside of math mode.
 " Last Edit: Mar 15, 2017
 
-" If the variable doesn't exist, set to its default value
-let g:vimtexer_jumpfunc = get(g:, 'vimtexer_jumpfunc', 1)
-
 " <C-r>=[function]() means to call a function and type what it returns as
 " if you were actually pressing the keys yourself
 inoremap <silent> <buffer> <Space> <C-r>=<SID>ExpandWord()<CR>
@@ -19,19 +16,17 @@ function! s:ExpandWord()
     let line = getline('.')
     let end  = col('.')-2
 
-    " If the last character was a space and jumpfunc is on, then delete the
-    " space and jump to the nextinstance of <+.*+>. At the moment, jumping
-    " is only available in tex files.
-    if &ft == 'tex' && line[end] == ' ' && g:vimtexer_jumpfunc == 1
-        return "\<BS>\<ESC>/<+.*+>\<CR>\"_cf>"
+    " If the last character was a space, then return a space as the keyword.
+    " Otherwise, find either the first character after a space or the beginning
+    " of the line, whichever is closer. This matches the first character of the
+    " last typed word. Get the column number and subtract one to get where the
+    " last word begins.
+    if line[end] == ' '
+        let word = ' '
+    else
+        let begin = searchpos('^\|\s\S', 'nbe')[1] - 1
+        let word  = line[begin:end]
     endif
-
-    " Find either the first character after a space or the beginning of the
-    " line, whichever is closer. This matches the first character of the last
-    " typed word. Get the column number and subtract one to get where the last
-    " word begins.
-    let begin = searchpos('^\|\s\S', 'nbe')[1] - 1
-    let word  = line[begin:end]
 
     " If the filetype is tex and you're in mathmode, then use that dictionary.
     " Otherwise, use the filetype dictionary. If anything fails, such as the
