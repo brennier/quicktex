@@ -1,4 +1,4 @@
-" File: vimtexer.vim
+" File: quicktex.vim
 " Author: Bennett Rennier <barennier AT gmail.com>
 " Website: brennier.com
 " Description: Maps keywords into other words, functions, keypresses, etc.
@@ -11,7 +11,7 @@
 autocmd FileType * call AssignExpander()
 
 function! AssignExpander()
-    if exists('g:vimtexer_'.&ft)
-        inoremap <silent> <buffer> <Space> <C-r>=vimtexer#expand#ExpandWord()<CR>
+    if exists('g:quicktex_'.&ft)
+        inoremap <silent> <buffer> <Space> <C-r>=quicktex#expand#ExpandWord()<CR>
     endif
 endfunction

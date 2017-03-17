@@ -1,13 +1,13 @@
-if !get(g:, 'vimtexer_usedefault', 1)
+if !get(g:, 'quicktex_usedefault', 1)
     finish
 endif
 
-if exists('g:vimtexer_tex') || exists('g:vimtexer_math')
+if exists('g:quicktex_tex') || exists('g:quicktex_math')
     finish
 endif
 
 " Keyword mappings are simply a dictionary. Dictionaries are of the form
-" "vimtexer_" and then the filetype. The result of a keyword is either a
+" "quicktex_" and then the filetype. The result of a keyword is either a
 " literal string or a double quoted string, depending on what you want.
 "
 " In a literal string, the result is just a simple literal substitution
@@ -22,7 +22,7 @@ endif
 
 " Math Mode Keywords {{{
 
-let g:vimtexer_math = {
+let g:quicktex_math = {
     \' ' : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
 \'Section: Lowercase Greek Letters' : 'COMMENT',
     \'alpha'   : '\alpha ',
@@ -225,7 +225,7 @@ let g:vimtexer_math = {
 
 " LaTeX Mode Keywords {{{
 
-let g:vimtexer_tex = {
+let g:quicktex_tex = {
     \' ' : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
     \'m' : '\( <+++> \) <++>',
 \'Section: Environments' : 'COMMENT',

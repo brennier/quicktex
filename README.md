@@ -1,44 +1,56 @@
-## Vimtexer is a template expander for quickly writing LaTeX
+## QuickTex is a template expander for quickly writing LaTeX
 
-Basically, Vimtexer allows you to set keywords to activate arbitrary Vim code whenever they are typed in insert mode. These expansions are filetype specifc. For example, if you are using the default dictionaries, then typing 'prf' in a tex file will expand into:
+Before anything else, here's a real-time demonstration of what QuickTex can do:
+<img src="http://brennier.com/static/pictures_original/vim_latex_plugin.gif">
 
-```tex
-\begin{proof}
-    *
-\end{proof}
-```
+Basically, QuickTex allows you to set keywords which activate arbitrary Vim code whenever they are typed in insert mode. The expansions are filetype specifc and are triggered by pressing space. In most respects, you can think of it like a much improved version of Vim abbreviations.
 
-where `*` represents your cursor position over expansion. You will remain in insert mode the entire time, allowing you to seamlessly continue typing. All expansions are triggered automatically after typing a space.
+## How is QuickTex different from UltiSnips or Vim abbreviations?
 
-## Why should I use Vimtexer instead of another plugin?
+The main points are simply
 
-1. Vimtexer has a separate namespace for math mode expansions. This truly is the best feature. It will help you type math in Latex faster than you ever thought possible.
+1. QuickTex has a separate namespace for math mode expansions. This will help you type math in Latex faster than you ever thought possible. My math mode dictionary has hundreds of keywords in it, which allow me to pratically type in English and have it converted into pure Latex in real-time.
 
-2. Vimtexer is small and simple. There are literally only two functions in the entire source. Altogether, the source code a little over 100 lines, well over half of which are just comments and blank lines. If you have any experience with writing a vim plugin, then you'll probably understand this plugin. Setting new keywords is as easy as making a dictionary in your vimrc.
+2. QuickTex keywords are automatically triggered after a space. This allows you to have seamless expansions that don't slow you down and allow you to type keyword after keyword in rapid sucession.
 
-3. Vimtexer is FAST. Since the code is so small and written completely in Vimscript, Vimtexer expands keywords instanteously. Programming similar functionality into a snippets plugin would be significantly slower, especially when you include the context dependence for math mode.
+3. QuickTex is very fast. Since the code written completely in Vimscript, QuickTex expands keywords instanteously. Programming similar functionality into a snippets plugin would be significantly slower, especially when you include the context dependence for math mode.
+
+#### Here's a little table that display some of the main differences:
+| Features          | QuickTex          | UltiSnips         | Abbreviations     |
+| ----------------- | ----------------- | ----------------- | ----------------- |
+| Trigger Key       | `<Space>`         | `<Tab>`           | Any non-word character |
+| Cursor Placement  | Yes               | Yes               | No                |
+| Jump Key          | `<Space><Space>`  | `<C-J>`           | N\A               |
+| Placeholders      | `<++>`            | Invisible         | N\A               |
+| Available Modes   | Only Insert Mode  | Only Insert Mode  | Any mode          |
+| Math Mode Context? | Yes              | Possible, but slow| Difficult to implement |
 
 ## Configuration
 
-Once you have added vimtexer to your vim plugins (either through vundle, vim-plug, pathogen, or even just copying the files manually), then you need to make a dictionary for each filetype you want to use vimtexer with. There are default dictionaries available for tex files, but I highly recommend that you create your own as these dictionaries may be changed as I try to figure out what works best.
+The keywords and their expansions are recorded in various dictionaries. Each filetype has its own dictionary, which should be named in the form of `g:quicktex_<filetype>`. There is also an additional dictionary that you can use called `g:quicktex_math` which is used whenever you are inside math delimiters of a Latex file. This example dictionary would give you all the functionality you need for the above gif to work:
 
-When you make a dictionary, the variable name should be `g:vimtexer_<filetype>`. There is one expection to this rule: the dictionary `g:vimtexer_math`. This dictionary is used instead of `g:vimtexer_tex` when you are inbetween math delimiters.
-
-Keywords can be any string without whitespace. Expansions can either be a literal string (using single quotes) or a string with keypress expansions (using double quotes). Keypress expansions are things like `\<CR>`, `\<BS>`, or `\<Right>` that one would find in vim remappings. Keep in mind that `\`'s need to be escaped (i.e. `\\`) when using double quoted strings.
-
-If the expansion string has a `<+++>` in it, then your cursor will be placed there after the expansion. This plugin also features a jump function support (only for latex files at the moment). This allows you to jump to the next `<++>` (note that this is different from `<+++>`) whenever you type double space. This feature can be turned off by adding `let g:vimtexer_jumpfunc = 0` in your vimrc. This feature is extremely useful as you can add `<++>`'s to keyword expansions in order to easily jump around afterwards.
-
-An example dictionary:
 ```vim
 let g:vimtexer_tex = {
-    \'alpha' : '\(\alpha\) ',
-    \'prf'   : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}"
-    \'frac'  : "\\(\\frac{<+++>}{<++>}\\) <++>"
+    \' '   : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
+    \'m'   : '\( <+++> \) <++>',
+    \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
+\}
+
+let g:vimtexer_math = {
+    \' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
+    \'fr'   : '\mathcal{R} ',
+    \'eq'   : '= ',
+    \'set'  : '\{ <+++> \} <++>',
+    \'frac' : '\frac{<+++>}{<++>} <++>',
+    \'one'  : '1 ',
+    \'st'   : ': ',
+    \'in'   : '\in ',
+    \'bn'   : '\mathbb{N} ',
 \}
 ```
-This dictionary would expand `alpha` as `\(\alpha\)` and would expand `prf` in the manner shown in the first section of this readme. `frac` would be expanded as `\(\frac{*}{<++>}\) <++>` (where `*` is your cursor position), allowing you to easily jump to the next argument and then jump out of math mode altogether. As you can see, this can significantly speed up your Latex typing speed. Keep in mind that you need backslashs at the beginning of each line when you do muiti-line definitions in Vimscript.
 
-For more information, see the source code, add a bug report, or contact me via e-mail.
+A few things to note here. If there is a `<+++>` anywhere in the expansion, then your cursor will automatically jump to that point after the expansion is triggered. Also, while not strictly necessary, I highly advise adding the `\' '  : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",` entry, which will allow you automatically jump to the next `<++>` if you press space after a space. You may think this would be annoying to map double space to this, but it's actually extremely useful and doesn't get in the way as much as you'd think. Using this entry, you can put `<++>`'s in your other expansions to jump around very easily.
 
-###For a video demonstration, click the image below:
-[![https://www.youtube.com/watch?v=z03-e8zCkl8](https://img.youtube.com/vi/z03-e8zCkl8/0.jpg)](https://www.youtube.com/watch?v=z03-e8zCkl8)
+Keywords can be any string without whitespace. Expansions can either be a literal string (using single quotes) or a string with keypress expansions (using double quotes). Keypress expansions are things like `\<CR>`, `\<BS>`, or `\<Right>` that one would find in vim remappings. Keep in mind that `\`'s need to be escaped (i.e. `\\`) when using double quoted strings and that you need a `\` at the beginning of each line of your dictionary.
+
+For more information, read the documentation using `:help quicktex`, create a bug report, or contact me via e-mail.

@@ -1,17 +1,14 @@
 " Set the asymmetric delimiters for math mode. The order of the lists don't
 " matter, as it's impossible to have nested math modes. The $ $ and the $$ $$
-" delimiters are handled separately, as they are symmetric.
-let s:begMathModes = ['\\(', '\\[', '\\begin{equation}', '\\begin{displaymath}',
-            \'\\begin{multline}', '\\begin{gather}', '\\begin{align}',
-            \'\\begin{multline\*}', '\\begin{gather\*}', '\\begin{align\*}',
-            \'\\begin{equation\*}']
-let s:endMathModes = ['\\)', '\\]', '\\end{equation}', '\\end{displaymath}',
-            \'\\end{multline}', '\\end{gather}', '\\end{align}',
-            \'\\end{multline\*}', '\\end{gather\*}', '\\end{align\*}',
-            \'\\end{equation\*}']
+" delimiters are handled separately, as they are symmetric. The ending brace
+" is omitted in order to match the *-variants.
+let s:begMathModes = ['\\(', '\\[', '\\begin{equation', '\\begin{displaymath',
+            \'\\begin{multline', '\\begin{gather', '\\begin{align', ]
+let s:endMathModes = ['\\)', '\\]', '\\end{equation', '\\end{displaymath',
+            \'\\end{multline', '\\end{gather', '\\end{align', ]
 
 " Detects to see if the user is inside math delimiters or not
-function! vimtexer#mathmode#InMathMode()
+function! quicktex#mathmode#InMathMode()
     " Find the line number and column number for the last math delimiters
     let [lnum1, col1] = searchpos(join(s:begMathModes,'\|'), 'nbW')
     let [lnum2, col2] = searchpos(join(s:endMathModes,'\|'), 'nbW')
@@ -43,20 +40,18 @@ function! vimtexer#mathmode#InMathMode()
     " save and restore the position afterwards. We remove the first character
     " of these commands so that the string starts with a number. We also make
     " sure not to count \$'s.
-    let curs = getcurpos()
+    let curs         = getcurpos()
     let pattern      = '\$\$\|[^\\]\$\|^\$'
-    let numofdollars =  execute('0,'.(line('.')-1).'s/'.pattern.'//gne')[1:]
+    let numofdollars = execute('0,'.(line('.')-1).'s/'.pattern.'//gne')[1:]
     call setpos('.', curs)
 
-    " Get a list of $ signs and $$ signs on the current line by getting the
-    " line up to the cursor position, substituting a space for every `\$` and
-    " for everything that isn't a $ sign. After all this, we split the string,
-    " which by this point should be a string exclusively of spaces and $ signs.
-    " The end result will look something like ['$', '$$', '$$', '$', '$$'].
-    " After all this, we take the length of the list and add it to the number
-    " of $'s and $$'s found in the previous lines.
-    let line = substitute(getline('.')[:col('.')-1], '\\\$\|[^$]', ' ', 'g')
-    let numofdollars += len(split(line))
+    " Count the number of $ and $$ signs on the current line by getting the
+    " line up to the cursor position, substituting a space for every `\$`,
+    " splitting at every $ and $$ sign, and then counting the number of splits
+    " there are. We add all of this to the number of dollars we found in the
+    " previous lines.
+    let line          = substitute(getline('.')[:col('.')-1], '\\\$', ' ', 'g')
+    let numofdollars += len(split(line, '\$\$\|\$', 1))-1
 
     " If the total number of $'s and $$'s is odd, then we must be in some
     " version of math mode. Otherwise, we're not in math mode.
