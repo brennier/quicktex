@@ -1,6 +1,6 @@
 function! quicktex#expand#ExpandWord()
     " Get the current line up to the cursor position
-    let line = getline('.')[:col('.')-2]
+    let line = strpart(getline('.'), 0, col('.')-1)
 
     " If the last character was a space, then return a space as the keyword.
     " The colon is necessary when indexing with negative numbers. Otherwise,
@@ -10,23 +10,21 @@ function! quicktex#expand#ExpandWord()
 
     " If the filetype is tex and you're in mathmode, then use that dictionary.
     " Otherwise, use the filetype dictionary. If there is no entry, just set
-    " result to 1.
+    " result to ''.
     if &ft == 'tex' && quicktex#mathmode#InMathMode()
-        " Use (, {, [, and " to delimit the beginning of a math keyword
-        let word   = split(word, '{\|(\|[\|"')[-1]
+        " Use (, {, and [ to delimit the beginning of a math keyword
+        let word   = split(word, '{\|(\|[')[-1]
         let result = get(g:quicktex_math, word, '')
     else
-        execute 'let result = get(g:quicktex_'.&ft.', word, '''')'
+        execute('let result = get(g:quicktex_'.&ft.', word, "")')
     endif
 
-    " If the dictionary lookup failed, then result is 1, which means that it's
-    " true. Otherwise, result is a string, which is always false.
     if result == ''
         return ' '
     endif
 
-    " String of backspaces to delete the last word. We also set a string for
-    " jumping back to the identifier "<+++>" if it exists.
+    " Create a string of backspaces to delete the last word, and also create a
+    " string for jumping back to the identifier "<+++>" if it exists.
     let delword  = repeat("\<BS>", strlen(word))
     let jumpBack = stridx(result,'<+++>')+1 ? "\<ESC>?<+++>\<CR>\"_cf>" : ''
 

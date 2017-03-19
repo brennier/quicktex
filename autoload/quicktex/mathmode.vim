@@ -20,6 +20,14 @@ function! quicktex#mathmode#InMathMode()
         return 1
     endif
 
+    " One can set g:quicktex_nodollars in order to bypass the dollar sign
+    " math mode check. This is because tex dollar signs are technically
+    " deprecated in Latex and checking for them takes up a majority of the
+    " QuickTex's runtime.
+    if !get(g:, 'quicktex_dollarcheck', 1)
+        return 0
+    endif
+
     " The rest of this function is for determining whether you're within $ $ or
     " $$ $$ tags. This is much more complicated, as they're symmetric and could
     " be on a previous line. I'll try my best to explain. We're trying to
@@ -41,8 +49,7 @@ function! quicktex#mathmode#InMathMode()
     " of these commands so that the string starts with a number. We also make
     " sure not to count \$'s.
     let curs         = getcurpos()
-    let pattern      = '\$\$\|[^\\]\$\|^\$'
-    let numofdollars = execute('0,'.(line('.')-1).'s/'.pattern.'//gne')[1:]
+    let numofdollars = strpart(execute('0,'.(line('.')-1).'s/\$\$\|[^\\]\$\|^\$//gne'), 1)
     call setpos('.', curs)
 
     " Count the number of $ and $$ signs on the current line by getting the
@@ -50,7 +57,8 @@ function! quicktex#mathmode#InMathMode()
     " splitting at every $ and $$ sign, and then counting the number of splits
     " there are. We add all of this to the number of dollars we found in the
     " previous lines.
-    let line          = substitute(getline('.')[:col('.')-1], '\\\$', ' ', 'g')
+    let line = substitute(
+                \strpart(getline('.'), 0, col('.')-1), '\\\$', ' ', 'g')
     let numofdollars += len(split(line, '\$\$\|\$', 1))-1
 
     " If the total number of $'s and $$'s is odd, then we must be in some

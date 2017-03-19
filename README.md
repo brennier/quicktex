@@ -13,9 +13,9 @@ The main points are simply
 
 2. QuickTex keywords are automatically triggered after a space. This allows you to have seamless expansions that don't slow you down and allow you to type keyword after keyword in rapid sucession.
 
-3. QuickTex is very fast. Since the code written completely in Vimscript, QuickTex expands keywords instanteously. Programming similar functionality into a snippets plugin would be significantly slower, especially when you include the context dependence for math mode.
+3. QuickTex is very fast. Since the code is written completely in Vimscript, QuickTex expands keywords instanteously. Programming similar functionality into a snippets plugin would be significantly slower, especially when you include the context dependence for math mode.
 
-#### Here's a little table that display some of the main differences:
+#### Here's a little table that displays some of the main differences:
 | Features          | QuickTex          | UltiSnips         | Abbreviations     |
 | ----------------- | ----------------- | ----------------- | ----------------- |
 | Trigger Key       | `<Space>`         | `<Tab>`           | Any non-word character |
