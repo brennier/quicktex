@@ -20,10 +20,10 @@ function! quicktex#mathmode#InMathMode()
         return 1
     endif
 
-    " One can set g:quicktex_nodollars in order to bypass the dollar sign
-    " math mode check. This is because tex dollar signs are technically
-    " deprecated in Latex and checking for them takes up a majority of the
-    " QuickTex's runtime.
+    " One can add `let g:quicktex_dollarcheck = 0` to their .vimrc in order to
+    " bypass the dollar sign math mode check. This is because tex dollar signs
+    " are technically deprecated in Latex and checking for them takes up a
+    " majority of the QuickTex's runtime.
     if !get(g:, 'quicktex_dollarcheck', 1)
         return 0
     endif

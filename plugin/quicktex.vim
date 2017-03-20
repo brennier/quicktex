@@ -6,12 +6,24 @@
 " includes different namespaces for inside and outside of math mode.
 " Last Edit: Mar 15, 2017
 
-" <C-r>=[function]() means to call a function and type what it returns as
-" if you were actually pressing the keys yourself
+" Call the assignment function after the filetype of the file has been
+" determined.
 autocmd FileType * call AssignExpander()
 
 function! AssignExpander()
+    " If the trigger is a special character, then translate it for the
+    " mapping. The default value of the trigger is '<Space>'.
+    if exists('g:quicktex_trigger')
+        let trigger = get({' ': '<Space>', '	' : '<Tab>'},
+                    \g:quicktex_trigger, g:quicktex_trigger)
+    else
+        let trigger = '<Space>'
+    endif
+
+    " If a dictionary for the filetype exists, then map the ExpandWord
+    " function to the trigger.
     if exists('g:quicktex_'.&ft)
-        inoremap <silent> <buffer> <Space> <C-r>=quicktex#expand#ExpandWord()<CR>
+        execute('inoremap <silent> <buffer> '.trigger.
+                    \' <C-r>=quicktex#expand#ExpandWord("'.&ft.'")<CR>')
     endif
 endfunction

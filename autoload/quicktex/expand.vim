@@ -1,4 +1,4 @@
-function! quicktex#expand#ExpandWord()
+function! quicktex#expand#ExpandWord(ft)
     " Get the current line up to the cursor position
     let line = strpart(getline('.'), 0, col('.')-1)
 
@@ -11,16 +11,18 @@ function! quicktex#expand#ExpandWord()
     " If the filetype is tex and you're in mathmode, then use that dictionary.
     " Otherwise, use the filetype dictionary. If there is no entry, just set
     " result to ''.
-    if &ft == 'tex' && quicktex#mathmode#InMathMode()
+    if a:ft == 'tex' && quicktex#mathmode#InMathMode()
         " Use (, {, and [ to delimit the beginning of a math keyword
         let word   = split(word, '{\|(\|[')[-1]
         let result = get(g:quicktex_math, word, '')
     else
-        execute('let result = get(g:quicktex_'.&ft.', word, "")')
+        execute('let result = get(g:quicktex_'.a:ft.', word, "")')
     endif
 
+    " If there is no result found in the dictionary, then return the original
+    " trigger key.
     if result == ''
-        return ' '
+        return get(g:, 'quicktex_trigger', ' ')
     endif
 
     " Create a string of backspaces to delete the last word, and also create a

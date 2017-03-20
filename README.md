@@ -20,10 +20,14 @@ The main points are simply
 | ----------------- | ----------------- | ----------------- | ----------------- |
 | Trigger Key       | `<Space>`         | `<Tab>`           | Any non-word character |
 | Cursor Placement  | Yes               | Yes               | No                |
-| Jump Key          | `<Space><Space>`  | `<C-J>`           | N\A               |
+| Jump Key          | `<Space><Space>`\*| `<C-J>`           | N\A               |
 | Placeholders      | `<++>`            | Invisible         | N\A               |
 | Available Modes   | Only Insert Mode  | Only Insert Mode  | Any mode          |
-| Math Mode Context? | Yes              | Possible, but slow| Difficult to implement |
+| Math Mode Context? | Yes              | Possible, but slow| Very difficult to implement |
+| Speed Ranking     | Fastest           | Slowest           | In the middle     |
+| FileType Dependence| Yes              | Yes               | No                |
+
+\* Requires adding the entry `\' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",` to your dictionary, which is highly recommended.
 
 ## Configuration
 
@@ -52,5 +56,7 @@ let g:vimtexer_math = {
 A few things to note here. If there is a `<+++>` anywhere in the expansion, then your cursor will automatically jump to that point after the expansion is triggered. Also, while not strictly necessary, I highly advise adding the `\' '  : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",` entry, which will allow you automatically jump to the next `<++>` if you press space after a space. You may think this would be annoying to map double space to this, but it's actually extremely useful and doesn't get in the way as much as you'd think. Using this entry, you can put `<++>`'s in your other expansions to jump around very easily.
 
 Keywords can be any string without whitespace. Expansions can either be a literal string (using single quotes) or a string with keypress expansions (using double quotes). Keypress expansions are things like `\<CR>`, `\<BS>`, or `\<Right>` that one would find in vim remappings. Keep in mind that `\`'s need to be escaped (i.e. `\\`) when using double quoted strings and that you need a `\` at the beginning of each line of your dictionary.
+
+For more ideas about what to include your dictionary, please take a look at the default dictionaries in `ftplugin/tex/default_keywords.vim`. It is highly recommended that you make your own custom dictionaries, as the default dictionaries may change without warning.
 
 For more information, read the documentation using `:help quicktex`, create a bug report, or contact me via e-mail.
