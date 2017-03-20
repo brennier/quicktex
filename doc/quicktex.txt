@@ -15,6 +15,8 @@ Contents                                                       *QuickTexContents
     1. Introduction ................... |QuickTexIntro|
     2. Usage .......................... |QuickTexUsage|
     3. Configuration .................. |QuickTexConfig|
+        i) Creating a dictionary ...... |QuickTexDictionaries|
+        ii) Other variables ........... |QuickTexVariables|
     4. License ........................ |QuickTexLicense|
     5. Bugs ........................... |QuickTexBugs|
     6. Changelog ...................... |QuickTexChangelog|
@@ -42,19 +44,40 @@ Some key differences between QuickTex and Vim abbreviations are:
 ===============================================================================
 Section 2: Usage                                                  *QuickTexUsage*
 
+The usage of this plugin is pretty easy. You set some dictionaries consisting
+of keywords and their expansions which are named g:quicktex_{filetype}. Then,
+whenever you open up a file of the appropriate filetype, type out that keyword,
+and press space, then you should see you keyword expanded into its
+corresponding expansion. This is very useful for automating boilerplate code.
+I recommend that your keywords be alphabetical, short, and resemble actual
+words (though, not actual words, otherwise you might accidentally expand
+something you don't want to). This will ensure the fastest typing speed.
+
+The main point of this program, though, are the math mode-specific expansions
+which should be stored in a dictionary called g:quicktex_math. This dictionary
+is used instead of the g:quicktex_tex dictionary whenever you are inside math
+delimiters. Since you don't typically type words inside math mode, I recommend
+that your keywords in this dictionary be actual words. If you set enough
+keywords up, this will allow you to essentially type in English (or whatever
+language you with) and have your words be expanded into Latex in real-time.
+Pretty cool, eh? =P
+
 ===============================================================================
 Section 3: Configuration                                         *QuickTexConfig*
 
-Here are the variables that you can set to configure QuickTex:
+-------------------------------------------------------------------------------
+Subsection (i): Creating a dictionary                      *QuickTexDictionaries*
+
+There are two types of dictionaries. They are of the form:
 
 g:quicktex_math
         Type: Dictionary. Default Value: See <ftplugin/tex/default_keywords>.
 
-        Whenever a keyword in this dictionary is typed
-        inside math mode delimiters in a tex file, then the keyword is deleted
-        and replaced with its value in this dictionary. Keywords cannot include
-        spaces, with the exception of the keyword ' ', which is called whenever
-        you hit space after a space. Unlike other dictionaries, keywords also
+        Whenever a keyword in this dictionary is typed inside math mode
+        delimiters in a tex file, then the keyword is deleted and replaced
+        with its value in this dictionary. Keywords cannot include spaces,
+        with the exception of the keyword ' ', which is called whenever you
+        hit space after a space. Unlike other dictionaries, keywords also
         cannot include "{" or "(".
 
 g:quicktex_{filetype}
@@ -66,6 +89,53 @@ g:quicktex_{filetype}
         replaced with its value in this dictionary. Keywords cannot include
         spaces, with the exception of the keyword ' ', which is called whenever
         you hit space after a space.
+
+Example dictionaries:
+
+    let g:vimtexer_tex = { ~
+        \' '   : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>", ~
+        \'m'   : '\( <+++> \) <++>', ~
+        \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}", ~
+    \} ~
+    let g:vimtexer_math = { ~
+        \' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>", ~
+        \'fr'   : '\mathcal{R} ', ~
+        \'eq'   : '= ', ~
+        \'set'  : '\{ <+++> \} <++>', ~
+        \'frac' : '\frac{<+++>}{<++>} <++>', ~
+        \'one'  : '1 ', ~
+        \'st'   : ': ', ~
+        \'in'   : '\in ', ~
+        \'bn'   : '\mathbb{N} ', ~
+    \} ~
+
+Further explanation:
+
+If there is a `<+++>` anywhere in the expansion, then your cursor will
+automatically jump to that point after the expansion is triggered. Also, while
+not strictly necessary, I highly advise adding the
+`\' ' : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>"`, entry, which will allow you
+automatically jump to the next `<++>` if you press space after a space. You may
+think this would be annoying to map double space to this, but it's actually
+extremely useful and doesn't get in the way as much as you'd think. Using this
+entry, you can put `<++>`'s in your other expansions to jump around very easily.
+
+Keywords can be any string without whitespace. Expansions can either be a
+literal string (using single quotes) or a string with keypress expansions
+(using double quotes). Keypress expansions are things like `\<CR>`, `\<BS>`, or
+`\<Right>` that one would find in vim remappings. Keep in mind that `\`'s need to
+be escaped (i.e. `\\`) when using double quoted strings and that you need a `\` at
+the beginning of each line of your dictionary.
+
+For more ideas about what to include your dictionary, please take a look at
+the default dictionaries in ftplugin/tex/default_keywords.vim. It is highly
+recommended that you make your own custom dictionaries, as the default
+dictionaries may change without warning.
+
+-------------------------------------------------------------------------------
+Subsection (ii): Other Variables                              *QuickTexVariables*
+
+Here are the variables that you can set to configure QuickTex:
 
 g:quicktex_dollarcheck
         Type: Boolean. Default Value: 1
@@ -94,6 +164,7 @@ g:quicktex_trigger
         See |QuickTexBugs| for more information on this. Also, keep in mind
         that you may need to modify your jumping keyword if you change this
         value.
+
 
 ===============================================================================
 Section 4: License                                              *QuickTexLicense*

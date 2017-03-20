@@ -16,16 +16,16 @@ The main points are simply
 3. QuickTex is very fast. Since the code is written completely in Vimscript, QuickTex expands keywords instanteously. Programming similar functionality into a snippets plugin would be significantly slower, especially when you include the context dependence for math mode.
 
 #### Here's a little table that displays some of the main differences:
-| Features          | QuickTex          | UltiSnips         | Abbreviations     |
-| ----------------- | ----------------- | ----------------- | ----------------- |
-| Trigger Key       | `<Space>`         | `<Tab>`           | Any non-word character |
-| Cursor Placement  | Yes               | Yes               | No                |
-| Jump Key          | `<Space><Space>`\*| `<C-J>`           | N\A               |
-| Placeholders      | `<++>`            | Invisible         | N\A               |
-| Available Modes   | Only Insert Mode  | Only Insert Mode  | Any mode          |
-| Math Mode Context? | Yes              | Possible, but slow| Very difficult to implement |
-| Speed Ranking     | Fastest           | Slowest           | In the middle     |
-| FileType Dependence| Yes              | Yes               | No                |
+| Features            | QuickTex          | UltiSnips         | Abbreviations     |
+| ------------------- | ----------------- | ----------------- | ----------------- |
+| Default Trigger Key | `<Space>`         | `<Tab>`           | Any non-word character |
+| Cursor Placement    | Yes               | Yes               | No                |
+| Jump Key            | `<Space><Space>`\*| `<C-J>`           | N\A               |
+| Placeholders        | `<++>`            | Invisible         | N\A               |
+| Available Modes     | Only Insert Mode  | Only Insert Mode  | Any mode          |
+| Math Mode Context?  | Yes, very fast    | Possible, but slow| Very difficult to implement |
+| Speed Ranking       | Fastest           | Slowest           | In the middle     |
+| File Type Specific? | Yes               | Yes               | No                |
 
 \* Requires adding the entry `\' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",` to your dictionary, which is highly recommended.
 
@@ -59,4 +59,4 @@ Keywords can be any string without whitespace. Expansions can either be a litera
 
 For more ideas about what to include your dictionary, please take a look at the default dictionaries in `ftplugin/tex/default_keywords.vim`. It is highly recommended that you make your own custom dictionaries, as the default dictionaries may change without warning.
 
-For more information, read the documentation using `:help quicktex`, create a bug report, or contact me via e-mail.
+For more information, read the full documentation using `:help quicktex`.
