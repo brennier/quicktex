@@ -3,7 +3,7 @@
 Before anything else, here's a real-time demonstration of what QuickTex can do:
 <img src="http://brennier.com/static/pictures_original/vim_latex_plugin.gif">
 
-Basically, QuickTex allows you to set keywords which activate arbitrary Vim code whenever they are typed in insert mode. The expansions are filetype specifc and are triggered by pressing space. In most respects, you can think of it like a much improved version of Vim abbreviations.
+Basically, QuickTex allows you to set keywords which activate arbitrary Vim code whenever they are typed in insert mode. The expansions are filetype specific and are triggered by pressing space. In most respects, you can think of it like a much-improved version of Vim abbreviations.
 
 ## How is QuickTex different from UltiSnips or Vim abbreviations?
 
