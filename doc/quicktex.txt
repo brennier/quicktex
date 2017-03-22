@@ -71,7 +71,8 @@ Subsection (i): Creating a dictionary                      *QuickTexDictionaries
 There are two types of dictionaries. They are of the form:
 
 g:quicktex_math
-        Type: Dictionary. Default Value: See <ftplugin/tex/default_keywords>.
+        Type: Dictionary
+        Default Value: See <ftplugin/tex/default_keywords>
 
         Whenever a keyword in this dictionary is typed inside math mode
         delimiters in a tex file, then the keyword is deleted and replaced
@@ -81,8 +82,8 @@ g:quicktex_math
         cannot include "{" or "(".
 
 g:quicktex_{filetype}
-        Type: Dictionary. Default Value: For Latex files, see
-        <ftplugin/tex/default_keywords>. Otherwise, there is no default value.
+        Type: Dictionary
+        Default Value: See <ftplugin/tex/default_keywords>
 
         Whenever a keyword in this dictionary is typed
         inside a file with type {filetype}, then the keyword is deleted and
@@ -138,7 +139,8 @@ Subsection (ii): Other Variables                              *QuickTexVariables
 Here are the variables that you can set to configure QuickTex:
 
 g:quicktex_dollarcheck
-        Type: Boolean. Default Value: 1
+        Type: Boolean
+        Default Value: 1
 
         If set to 0, then QuickTex will not check for `$ $` or `$$ $$` math mode
         delimiters. This is for people who use `\( \)` and `\[ \]`, as `$ $`
@@ -147,7 +149,8 @@ g:quicktex_dollarcheck
         plugin's runtime.
 
 g:quicktex_usedefault
-        Type: Boolean. Default Value: 1
+        Type: Boolean
+        Default Value: 1
 
         If set to 0, then QuickTex will not use it's default dictionaries for
         Latex files. Keep in mind that making a Latex dictionary automatically
@@ -156,7 +159,8 @@ g:quicktex_usedefault
         Latex files.
 
 g:quicktex_trigger
-        Type: String. Default Value: " "
+        Type: String
+        Default Value: " "
 
         This sets the default value for the trigger. Currently acceptable
         values are " ", any sequence of alphanumerical characters, and "\t"
@@ -185,7 +189,7 @@ If you have found a bug, please submit it to the github page at
 ===============================================================================
 Section 7: Changelog                                          *QuickTexChangelog*
 
-QuickTex 3.0
+QuickTex 1.2
     1. Major speed improvements
     2. Autoloading all functions
     3. Support for `$ $` and `$$ $$` math modes
@@ -193,7 +197,7 @@ QuickTex 3.0
     5. This documentation
     6. Support for alternative triggers
 
-QuickTex 2.0
+QuickTex 1.1
     1. Support for other filetypes
     2. Support for many different types of math modes (not `$ $`, though)
     3. Removed bugs concerning expansions after { and \

@@ -20,7 +20,7 @@ The main points are simply
 | ------------------- | ----------------- | ----------------- | ----------------- |
 | Default Trigger Key | `<Space>`         | `<Tab>`           | Any non-word character |
 | Cursor Placement    | Yes               | Yes               | No                |
-| Jump Key            | `<Space><Space>`\*| `<C-J>`           | N\A               |
+| Default Jump Key    | `<Space><Space>`\*| `<C-J>`           | N\A               |
 | Placeholders        | `<++>`            | Invisible         | N\A               |
 | Available Modes     | Only Insert Mode  | Only Insert Mode  | Any mode          |
 | Math Mode Context?  | Yes, very fast    | Possible, but slow| Very difficult to implement |
@@ -28,6 +28,18 @@ The main points are simply
 | File Type Specific? | Yes               | Yes               | No                |
 
 \* Requires adding the entry `\' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",` to your dictionary, which is highly recommended.
+
+## Installation
+
+I personally use vim-plug, but here's the various install commands for a variety of plugin managers:
+```vim
+" vim-plug
+Plug 'brennier/quicktex'
+" NeoBundle
+NeoBundle 'brennier/quicktex'
+" Vundle
+Plugin 'brennier/quicktex'
+```
 
 ## Configuration
 
