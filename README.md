@@ -46,13 +46,13 @@ Plugin 'brennier/quicktex'
 The keywords and their expansions are recorded in various dictionaries. Each filetype has its own dictionary, which should be named in the form of `g:quicktex_<filetype>`. There is also an additional dictionary that you can use called `g:quicktex_math` which is used whenever you are inside math delimiters of a Latex file. This example dictionary would give you all the functionality you need for the above gif to work:
 
 ```vim
-let g:vimtexer_tex = {
+let g:quicktex_tex = {
     \' '   : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
     \'m'   : '\( <+++> \) <++>',
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
 \}
 
-let g:vimtexer_math = {
+let g:quicktex_math = {
     \' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
     \'fr'   : '\mathcal{R} ',
     \'eq'   : '= ',
