@@ -42,36 +42,27 @@ function! quicktex#mathmode#InMathMode()
     " them together at the same time. This reduces our search to a single
     " pass-through instead of two pass-throughs.
 
-    " Find the number of occurrences of dollar signs and double signs in the
+    " Find the number of occurrences of dollar signs and double dollar signs in the
     " lines BEFORE the current line. For some reason, the substitution command
     " moves the cursor, even though the 'n' flag is specified, so we need to
     " save and restore the position afterwards. We remove the first character
     " of these commands so that the string starts with a number. We also make
-    " sure not to count \$'s. We check whether the user's .vimrc
-    " specifies the 'gdefault' option (inverting the effect of the 'g' flag in
-    " the substitution command) to ensure that we count the number of dollar and
-    " double-dollar signs correctly.
+    " sure not to count \$'s. We check whether the user's .vimrc specifies the
+    " 'gdefault' option (inverting the effect of the 'g' flag in the
+    " substitution command) to ensure that we count the number of dollar and
+    " double dollar signs correctly.
     let curs         = getcurpos()
-    if (&gdefault == 'nogdefault')
-        let numofdollars = strpart(execute('0,'.(line('.')-1).'s/\$\$\|[^\\]\$\|^\$//gne'), 1)
-    else
-        let numofdollars = strpart(execute('0,'.(line('.')-1).'s/\$\$\|[^\\]\$\|^\$//ne'), 1)
-    endif
+    let gflag        = &gdefault ? '' : 'g'
+    let numofdollars = strpart(execute('0,'.(line('.')-1).'s/\$\$\|[^\\]\$\|^\$//ne'.gflag), 1)
     call setpos('.', curs)
 
     " Count the number of $ and $$ signs on the current line by getting the
     " line up to the cursor position, substituting a space for every `\$`,
     " splitting at every $ and $$ sign, and then counting the number of splits
     " there are. We add all of this to the number of dollars we found in the
-    " previous lines. Similarly to above, we check whether the user's .vimrc
-    " sets the 'gdefault' option to ensure a correct count.
-    if (&gdefault == 'nogdefault')
-        let line = substitute(
-                    \strpart(getline('.'), 0, col('.')-1), '\\\$', ' ', 'g')
-    else
-        let line = substitute(
-                    \strpart(getline('.'), 0, col('.')-1), '\\\$', ' ', '')
-    endif
+    " previous lines.
+    let line = substitute(
+                \strpart(getline('.'), 0, col('.')-1), '\\\$', ' ', 'g')
     let numofdollars += len(split(line, '\$\$\|\$', 1))-1
 
     " If the total number of $'s and $$'s is odd, then we must be in some
