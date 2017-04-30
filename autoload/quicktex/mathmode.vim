@@ -53,7 +53,7 @@ function! quicktex#mathmode#InMathMode()
     " double dollar signs correctly.
     let curs         = getcurpos()
     let gflag        = &gdefault ? '' : 'g'
-    let numofdollars = strpart(execute('0,'.(line('.')-1).'s/\$\$\|[^\\]\$\|^\$//ne'.gflag), 1)
+    let numofdollars = strpart(execute('0,.-s/\$\$\|[^\\]\$\|^\$//ne'.gflag), 1)
     call setpos('.', curs)
 
     " Count the number of $ and $$ signs on the current line by getting the
