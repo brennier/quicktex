@@ -53,7 +53,7 @@ function! quicktex#mathmode#InMathMode()
     " double dollar signs correctly.
     let curs         = getcurpos()
     let gflag        = &gdefault ? '' : 'g'
-    let numofdollars = strpart(execute('0,.-s/\$\$\|[^\\]\$\|^\$//ne'.gflag), 1)
+    let numofdollars = strpart(execute('0,.-s/\\\@<!\$.//ne'.gflag), 1)
     call setpos('.', curs)
 
     " Count the number of $ and $$ signs on the current line by getting the
@@ -61,9 +61,8 @@ function! quicktex#mathmode#InMathMode()
     " splitting at every $ and $$ sign, and then counting the number of splits
     " there are. We add all of this to the number of dollars we found in the
     " previous lines.
-    let line = substitute(
-                \strpart(getline('.'), 0, col('.')-1), '\\\$', ' ', 'g')
-    let numofdollars += len(split(line, '\$\$\|\$', 1))-1
+    let line = substitute(strpart(getline('.'), 0, col('.')-1), '\\\$', ' ', 'g')
+    let numofdollars += len(split(line, '\$.', 1))-1
 
     " If the total number of $'s and $$'s is odd, then we must be in some
     " version of math mode. Otherwise, we're not in math mode.
