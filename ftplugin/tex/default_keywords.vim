@@ -1,8 +1,14 @@
-if !get(g:, 'quicktex_usedefault', 1)
+if exists('g:quicktex_tex') && !exists('g:quicktex_math')
+    let g:quicktex_math = {}
+    finish
+elseif !exists('g:quicktex_tex') && exists('g:quicktex_math')
+    let g:quicktex_tex = {}
+    finish
+elseif exists('g:quicktex_tex') && exists('g:quicktex_math')
     finish
 endif
 
-if exists('g:quicktex_tex') || exists('g:quicktex_math')
+if !get(g:, 'quicktex_usedefault', 1)
     finish
 endif
 
