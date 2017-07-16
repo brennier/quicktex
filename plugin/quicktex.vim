@@ -10,6 +10,18 @@
 " determined.
 autocmd FileType * call AssignExpander()
 
+let s:begMathModes = ['\\(', '\\[', '\\begin{equation', '\\begin{displaymath',
+            \'\\begin{multline', '\\begin{gather', '\\begin{align', ]
+let s:endMathModes = ['\\)', '\\]', '\\end{equation', '\\end{displaymath',
+            \'\\end{multline', '\\end{gather', '\\end{align', ]
+let s:tex_mode = ['math', s:begMathModes, s:endMathModes]
+
+if !exists('g:quicktex_modes')
+    let g:quicktex_modes = [s:tex_mode]
+else
+    call add(g:quicktex_modes, s:tex_mode)
+endif
+
 function! AssignExpander()
     " If the trigger is a special character, then translate it for the
     " mapping. The default value of the trigger is '<Space>'.
