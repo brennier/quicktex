@@ -16,12 +16,14 @@ function! quicktex#expand#ExpandWord(ft)
     " result to ''.
     let dictionary = ''
     for mode in g:quicktex_modes
-        let [row1, col1] = searchpos(join(mode[1],'\|'), 'nbW')
-        let [row2, col2] = searchpos(join(mode[2],'\|'), 'nbW')
+        if a:ft == mode[0]
+            let [row1, col1] = searchpos(join(mode[2],'\|'), 'nbW')
+            let [row2, col2] = searchpos(join(mode[3],'\|'), 'nbW')
 
-        if (row1 > row2) || (row1 == row2 && col1 > col2)
-            let dictionary = mode[0]
-            break
+            if (row1 > row2) || (row1 == row2 && col1 > col2)
+                let dictionary = mode[1]
+                break
+            endif
         endif
     endfor
 

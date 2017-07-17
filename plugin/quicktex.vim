@@ -14,7 +14,7 @@ let s:begMathModes = ['\\(', '\\[', '\\begin{equation', '\\begin{displaymath',
             \'\\begin{multline', '\\begin{gather', '\\begin{align', ]
 let s:endMathModes = ['\\)', '\\]', '\\end{equation', '\\end{displaymath',
             \'\\end{multline', '\\end{gather', '\\end{align', ]
-let s:tex_mode = ['math', s:begMathModes, s:endMathModes]
+let s:tex_mode = ['tex', 'math', s:begMathModes, s:endMathModes]
 
 if !exists('g:quicktex_modes')
     let g:quicktex_modes = [s:tex_mode]
