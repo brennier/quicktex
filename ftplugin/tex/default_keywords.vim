@@ -192,11 +192,11 @@ let g:quicktex_math = {
     \'fv' : '\mathcal{V} ',
     \
 \'Section: Encapsulating keywords' : 'COMMENT',
-    \'bar'  : "\<ESC>F a\\overline{\<ESC>f i} ",
-    \'tild' : "\<ESC>F a\\tilde{\<ESC>f i} ",
-    \'hat'  : "\<ESC>F a\\hat{\<ESC>f i} ",
+    \'hat'  : "\<ESC>xBi\\hat{\<ESC>Ea} ",
+    \'bar'  : "\<ESC>xBi\\overline{\<ESC>Ea} ",
+    \'tild'  : "\<ESC>xBi\\tilde{\<ESC>Ea} ",
+    \'vec'  : "\<ESC>xBi\\vec{\<ESC>Ea} ",
     \'star' : "\<BS>^* ",
-    \'vec'  : "\<ESC>F a\\vec{\<ESC>f i} ",
     \
 \'Section: Linear Algebra' : 'COMMENT',
     \'GL'     : '\text{GL} ',
