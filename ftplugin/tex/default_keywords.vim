@@ -196,6 +196,7 @@ let g:quicktex_math = {
     \'bar'  : "\<ESC>Bi\\overline{\<ESC>Els} ",
     \'tild'  : "\<ESC>Bi\\tild{\<ESC>Els} ",
     \'vec'  : "\<ESC>Bi\\vec{\<ESC>Els} ",
+    \'star'  : "\<BS>^* ",
     \
 \'Section: Linear Algebra' : 'COMMENT',
     \'GL'     : '\text{GL} ',
