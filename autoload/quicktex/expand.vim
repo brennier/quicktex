@@ -1,4 +1,4 @@
-function! quicktex#expand#ExpandWord(ft)
+function! quicktex#expand#ExpandWord(ft, char)
     " Get the current line up to the cursor position
     let line = strpart(getline('.'), 0, col('.')-1)
 
@@ -6,7 +6,7 @@ function! quicktex#expand#ExpandWord(ft)
     " The colon is necessary when indexing with negative numbers. Otherwise,
     " part the string at the last space. This will be the last word typed.
     " Note that if there is no space, strridx returns -1, which all works out.
-    let word = (line[-1:] == ' ') ? ' ' : split(line, '\s', 1)[-1]
+    let word = (line[-2:] == ' ') ? ' ' : split(line, '\s', 1)[-1]
 
     " Use (, {, and [ to delimit the beginning of a math keyword
     let word = split(word, '{\|(\|[', 1)[-1]
@@ -37,20 +37,18 @@ function! quicktex#expand#ExpandWord(ft)
 
     execute('let result = get(g:quicktex_'.dictionary.', word, "")')
 
-    " If there is no result found in the dictionary, then return the original
-    " trigger key.
-    if result == ''
-        return get(g:, 'quicktex_trigger', ' ')
-    endif
-
     " Create a string of backspaces to delete the last word, and also create a
     " string for jumping back to the identifier "<+++>" if it exists.
-    let delword  = repeat("\<BS>", strlen(word))
+    let delword  = repeat("\<BS>", strlen(word)+1)
     let jumpBack = stridx(result,'<+++>')+1 ? "\<ESC>?<+++>\<CR>\"_cf>" : ''
 
     " Delete the original word, replace it with the result of the dictionary,
     " and jump back if needed.
-    return delword.result.jumpBack
+    if result[-1:] == ' '
+        call feedkeys(delword.result."\<BS>".a:char.jumpBack, 'n')
+    else
+        call feedkeys(delword.result.jumpBack, 'n')
+    endif
 endfunction
 
 function! s:InMathMode()

@@ -23,19 +23,8 @@ else
 endif
 
 function! AssignExpander()
-    " If the trigger is a special character, then translate it for the
-    " mapping. The default value of the trigger is '<Space>'.
-    if exists('g:quicktex_trigger')
-        let trigger = get({' ': '<Space>', '	' : '<Tab>'},
-                    \g:quicktex_trigger, g:quicktex_trigger)
-    else
-        let trigger = '<Space>'
-    endif
-
-    " If a dictionary for the filetype exists, then map the ExpandWord
-    " function to the trigger.
+    " Trigger on a non-word character
     if exists('g:quicktex_'.&ft)
-        execute('inoremap <silent> <buffer> '.trigger.
-                    \' <C-r>=quicktex#expand#ExpandWord("'.&ft.'")<CR>')
+        autocmd InsertCharPre * if v:char =~ '\W' | call quicktex#expand#ExpandWord(&ft, v:char) | endif
     endif
 endfunction
