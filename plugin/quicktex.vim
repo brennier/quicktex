@@ -4,7 +4,7 @@
 " Description: Maps keywords into other words, functions, keypresses, etc.
 " while in insert mode. The main purpose is for writing LaTeX faster. Also
 " includes different namespaces for inside and outside of math mode.
-" Last Edit: Mar 15, 2017
+" Last Edit: Jan 16, 2018
 
 " Call the assignment function after the filetype of the file has been
 " determined.

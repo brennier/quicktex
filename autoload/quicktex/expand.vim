@@ -32,5 +32,5 @@ function! quicktex#expand#ExpandWord(ft)
 
     " Delete the original word, replace it with the result of the dictionary,
     " and jump back if needed.
-    return delword.result.jumpBack
+    return "\<C-g>u".delword.result.jumpBack
 endfunction

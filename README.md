@@ -27,7 +27,7 @@ The main points are simply
 | Speed Ranking       | Fastest           | Slowest           | In the middle     |
 | File Type Specific? | Yes               | Yes               | No                |
 
-\* Requires adding the entry `\' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",` to your dictionary, which is highly recommended.
+\* Requires adding the entry `\' '    : "\<ESC>:call search('<+.*+>')\<CR>\"_c/+>/e\<CR>",` to your dictionary, which is highly recommended.
 
 ## Installation
 
@@ -47,13 +47,13 @@ The keywords and their expansions are recorded in various dictionaries. Each fil
 
 ```vim
 let g:quicktex_tex = {
-    \' '   : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
+    \' '   : "\<ESC>:call search('<+.*+>')\<CR>\"_c/+>/e\<CR>",
     \'m'   : '\( <+++> \) <++>',
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
 \}
 
 let g:quicktex_math = {
-    \' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
+    \' '    : "\<ESC>:call search('<+.*+>')\<CR>\"_c/+>/e\<CR>",
     \'fr'   : '\mathcal{R} ',
     \'eq'   : '= ',
     \'set'  : '\{ <+++> \} <++>',
@@ -65,7 +65,7 @@ let g:quicktex_math = {
 \}
 ```
 
-A few things to note here. If there is a `<+++>` anywhere in the expansion, then your cursor will automatically jump to that point after the expansion is triggered. Also, while not strictly necessary, I highly advise adding the `\' '  : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",` entry, which will allow you automatically jump to the next `<++>` if you press space after a space. You may think this would be annoying to map double space to this, but it's actually extremely useful and doesn't get in the way as much as you'd think. Using this entry, you can put `<++>`'s in your other expansions to jump around very easily.
+A few things to note here. If there is a `<+++>` anywhere in the expansion, then your cursor will automatically jump to that point after the expansion is triggered. Also, while not strictly necessary, I highly advise adding the `\' '  : "\<ESC>:call search('<+.*+>')\<CR>\"_c/+>/e\<CR>",` entry, which will allow you automatically jump to the next `<++>` if you press space after a space. You may think this would be annoying to map double space to this, but it's actually extremely useful and doesn't get in the way as much as you'd think. Using this entry, you can put `<++>`'s in your other expansions to jump around very easily.
 
 Keywords can be any string without whitespace. Expansions can either be a literal string (using single quotes) or a string with keypress expansions (using double quotes). Keypress expansions are things like `\<CR>`, `\<BS>`, or `\<Right>` that one would find in vim remappings. Keep in mind that `\`'s need to be escaped (i.e. `\\`) when using double quoted strings and that you need a `\` at the beginning of each line of your dictionary.
 
