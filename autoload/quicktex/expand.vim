@@ -11,7 +11,7 @@ function! quicktex#expand#ExpandWord(ft)
     " If the filetype is tex and you're in mathmode, then use that dictionary.
     " Otherwise, use the filetype dictionary. If there is no entry, just set
     " result to ''.
-    if a:ft == 'tex' && quicktex#mathmode#InMathMode()
+    if (a:ft == 'tex' || a:ft == 'pandoc') && quicktex#mathmode#InMathMode()
         " Use (, {, and [ to delimit the beginning of a math keyword
         let word   = split(word, '{\|(\|[', 1)[-1]
         let result = get(g:quicktex_math, word, '')
