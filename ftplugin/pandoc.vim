@@ -6,6 +6,6 @@ endif
 
 if exists('g:quicktex_pandoc') && !exists('g:quicktex_math')
     let g:quicktex_math = {}
-elseif !exists('g:quicktex_tex') && exists('g:quicktex_math')
+elseif !exists('g:quicktex_pandoc') && exists('g:quicktex_math')
     let g:quicktex_pandoc = {}
 endif
