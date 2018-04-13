@@ -2,16 +2,16 @@
 " matter, as it's impossible to have nested math modes. The $ $ and the $$ $$
 " delimiters are handled separately, as they are symmetric. The ending brace
 " is omitted in order to match the *-variants.
-let s:begMathModes = ['\\(', '\\[', '\\begin{equation', '\\begin{displaymath',
-            \'\\begin{multline', '\\begin{gather', '\\begin{align', ]
-let s:endMathModes = ['\\)', '\\]', '\\end{equation', '\\end{displaymath',
-            \'\\end{multline', '\\end{gather', '\\end{align', ]
+let s:begMathModes = ['(', '[', 'begin{equation', 'begin{displaymath',
+            \'begin{multline', 'begin{gather', 'begin{align', ]
+let s:endMathModes = [')', ']', 'end{equation', 'end{displaymath',
+            \'end{multline', 'end{gather', 'end{align', ]
 
 " Detects to see if the user is inside math delimiters or not
 function! quicktex#mathmode#InMathMode()
     " Find the line number and column number for the last math delimiters
-    let [lnum1, col1] = searchpos(join(s:begMathModes,'\|'), 'nbW')
-    let [lnum2, col2] = searchpos(join(s:endMathModes,'\|'), 'nbW')
+    let [lnum1, col1] = searchpos('\\\@<!\\\(' . join(s:begMathModes,'\|') . '\)', 'nbW')
+    let [lnum2, col2] = searchpos('\\\@<!\\\(' . join(s:endMathModes,'\|') . '\)', 'nbW')
 
     " See if the last math mode ending delimiter occurred after the last math
     " mode beginning delimiter. If not, then you're in math mode. This works
