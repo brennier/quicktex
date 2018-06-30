@@ -138,16 +138,6 @@ Subsection (ii): Other Variables                              *QuickTexVariables
 
 Here are the variables that you can set to configure QuickTex:
 
-g:quicktex_dollarcheck
-        Type: Boolean
-        Default Value: 1
-
-        If set to 0, then QuickTex will not check for `$ $` or `$$ $$` math mode
-        delimiters. This is for people who use `\( \)` and `\[ \]`, as `$ $`
-        and `$$ $$` are technically deprecated in Latex. This variable exists
-        as checking for these delimiters takes up the majority of this
-        plugin's runtime.
-
 g:quicktex_usedefault
         Type: Boolean
         Default Value: 1
