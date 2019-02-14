@@ -8,12 +8,15 @@ function! quicktex#expand#ExpandWord(ft)
     " Note that if there is no space, strridx returns -1, which all works out.
     let word = (line[-1:] == ' ') ? ' ' : split(line, '\s', 1)[-1]
 
+    " Cuts the word so that it only contains valid keyword characters.
+    " Non-valid keyword characters are defined by g:quicktex_excludechar.
+    " Default value: ['(','{','[']
+    let word = split(word, join(g:quicktex_excludechar, '\|'), 1)[-1]
+
     " If the filetype is tex and you're in mathmode, then use that dictionary.
     " Otherwise, use the filetype dictionary. If there is no entry, just set
     " result to ''.
     if (a:ft == 'tex' || a:ft == 'pandoc') && quicktex#mathmode#InMathMode()
-        " Use (, {, and [ to delimit the beginning of a math keyword
-        let word   = split(word, '{\|(\|[', 1)[-1]
         let result = get(g:quicktex_math, word, '')
     else
         execute('let result = get(g:quicktex_'.a:ft.', word, "")')

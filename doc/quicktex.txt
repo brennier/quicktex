@@ -159,6 +159,16 @@ g:quicktex_trigger
         that you may need to modify your jumping keyword if you change this
         value.
 
+g:quicktex_excludechar
+        Type: List of Strings
+        Default Value: ['{', '(', '[']
+
+        Characters in this list are excluded from being in keywords. After
+        every space typed, Quicktex will check if the characters between your
+        cursor and the last valid character is a keyword (whitespace is never
+        considered a valid character). The default value allows keywords to
+        still be executed even if they are adjacent to an opening parenthesis,
+        bracket, or brace.
 
 ===============================================================================
 Section 4: License                                              *QuickTexLicense*

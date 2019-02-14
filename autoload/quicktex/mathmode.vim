@@ -22,7 +22,7 @@ function! quicktex#mathmode#InMathMode()
         " Remove the part of the string up to the ending delimiter
         let lines = strpart(lines, strridx(lines, end)+1)
         " Check if a corresponding beginning delimiter is left in the string
-        if stridx(lines, begin) != -1
+        if stridx(lines, begin)+1
             return 1
         endif
     endfor

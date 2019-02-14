@@ -10,6 +10,10 @@
 " determined.
 autocmd FileType * call AssignExpander()
 
+if !exists('g:quicktex_excludechar')
+    let g:quicktex_excludechar = ['{', '(', '[']
+endif
+
 function! AssignExpander()
     " If the trigger is a special character, then translate it for the
     " mapping. The default value of the trigger is '<Space>'.
