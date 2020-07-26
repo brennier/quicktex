@@ -1,7 +1,7 @@
 ## QuickTex is a template expander for quickly writing LaTeX
 
 Before anything else, here's a real-time demonstration of what QuickTex can do:
-<img src="http://brennier.com/static/pictures_original/vim_latex_plugin.gif">
+<img src="https://i.imgur.com/LOVaZzG.gifv">
 
 Basically, QuickTex allows you to set keywords which activate arbitrary Vim code whenever they are typed in insert mode. The expansions are filetype specific and are triggered by pressing space. In most respects, you can think of it like a much-improved version of Vim abbreviations.
 
