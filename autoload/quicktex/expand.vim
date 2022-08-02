@@ -12,7 +12,7 @@ function! quicktex#expand#ExpandWord(ft)
     " Non-valid keyword characters are defined by g:quicktex_excludechar.
     " Default value: ['(','{','[']
     let word = split(word, join(g:quicktex_excludechar, '\|'), 1)[-1]
-    
+
     " If the filetype is tex and you're in mathmode, then use that dictionary.
     " Otherwise, use the filetype dictionary. If there is no entry, just set
     " result to ''.

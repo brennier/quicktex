@@ -93,12 +93,12 @@ g:quicktex_{filetype}
 
 Example dictionaries:
 
-    let g:vimtexer_tex = { ~
+    let g:quicktex_tex = { ~
         \' '   : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>", ~
         \'m'   : '\( <+++> \) <++>', ~
         \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}", ~
     \} ~
-    let g:vimtexer_math = { ~
+    let g:quicktex_math = { ~
         \' '    : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>", ~
         \'fr'   : '\mathcal{R} ', ~
         \'eq'   : '= ', ~
@@ -169,6 +169,29 @@ g:quicktex_excludechar
         considered a valid character). The default value allows keywords to
         still be executed even if they are adjacent to an opening parenthesis,
         bracket, or brace.
+
+g:quicktex_always_tex
+        Type: Boolean
+        Default Value: 1
+
+        The default Vim behavior is to separate .tex files into two filetypes:
+        'tex' and 'plaintex'. The difference being that the former is for
+        latex files and the latter is for plain tex files. Vim automatically
+        tries to determine which is the case by looking at the file contents,
+        defaulting to 'plaintex' if it's ambiguous. This causes unexpected
+        behavior and bug reports from users. This option, which defaults to 1,
+        forces Vim to always use the 'tex' filetype for .tex files.
+
+g:quicktex_math_filetypes
+        Type: List of Strings
+        Default Value: ['tex', 'markdown', 'pandoc']
+
+        Filetypes in this list support math mode. QuickTex will try to
+        automatically determine whether you're inside a math equation by
+        detecting '$' symbols and/or certain statements such as
+        '\begin{equation} ... \end{equation}'. Inside a math equation, the
+        dictionary g:quicktex_math will be used. Outside of a math equation,
+        the normal filetype-specific dictionary will be used.
 
 ===============================================================================
 Section 4: License                                              *QuickTexLicense*

@@ -15,7 +15,7 @@ function! quicktex#mathmode#InMathMode()
     let lines     = getline(0, '.')
     let lines[-1] = strpart(lines[-1], 0, col('.')-1)
     let lines     = join(lines, '')
-    " Remove escaped backslashes to avoid something line \\(
+    " Remove escaped backslashes to avoid something like \\(
     let lines     = substitute(lines, '\\\\', '', 'g')
 
     for [begin, end] in s:mathModes
