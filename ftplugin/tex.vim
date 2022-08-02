@@ -1,13 +1,4 @@
-if exists('g:quicktex_tex') && !exists('g:quicktex_math')
-    let g:quicktex_math = {}
-    finish
-elseif !exists('g:quicktex_tex') && exists('g:quicktex_math')
-    let g:quicktex_tex = {}
-    finish
-elseif exists('g:quicktex_tex') && exists('g:quicktex_math')
-    finish
-endif
-
+" If quicktex_usedefault is explicitly set to 0, don't load this file
 if !get(g:, 'quicktex_usedefault', 1)
     finish
 endif
