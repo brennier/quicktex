@@ -14,6 +14,10 @@ if !exists('g:quicktex_excludechar')
     let g:quicktex_excludechar = ['{', '(', '[']
 endif
 
+if get(g:, 'quicktex_always_latex', 1)
+    let g:tex_flavor = 'latex'
+endif
+
 function! AssignExpander()
     " If the trigger is a special character, then translate it for the
     " mapping. The default value of the trigger is '<Space>'.
