@@ -34,7 +34,8 @@ function! AssignExpander()
 
     " If a dictionary for the filetype exists, then map the ExpandWord
     " function to the trigger.
-    if exists('g:quicktex_'.&ft)
+    if (exists('g:quicktex_math') && index(g:quicktex_math_filetypes, &ft)+1)
+      \ || exists('g:quicktex_'.&ft)
         execute('inoremap <silent> <buffer> '.trigger.
                     \' <C-r>=quicktex#expand#ExpandWord("'.&ft.'")<CR>')
     endif
