@@ -28,7 +28,7 @@ Section 1: Intro                                                  *QuickTexIntro
 
 Basically, QuickTex allows you to set keywords which activate arbitrary Vim
 code whenever they are typed in insert mode. The expansions are filetype
-specifc and are triggered by pressing space. In most respects, you can think
+specific and are triggered by pressing space. In most respects, you can think
 of it like a much improved version of Vim abbreviations.
 
 Some key differences between QuickTex and Vim abbreviations are:
@@ -47,7 +47,7 @@ Section 2: Usage                                                  *QuickTexUsage
 The usage of this plugin is pretty easy. You set some dictionaries consisting
 of keywords and their expansions which are named g:quicktex_{filetype}. Then,
 whenever you open up a file of the appropriate filetype, type out that keyword,
-and press space, then you should see you keyword expanded into its
+and press space, then you should see your keyword expanded into its
 corresponding expansion. This is very useful for automating boilerplate code.
 I recommend that your keywords be alphabetical, short, and resemble actual
 words (though, not actual words, otherwise you might accidentally expand
@@ -142,7 +142,7 @@ g:quicktex_usedefault
         Type: Boolean
         Default Value: 1
 
-        If set to 0, then QuickTex will not use it's default dictionaries for
+        If set to 0, then QuickTex will not use its default dictionaries for
         Latex files. Keep in mind that making a Latex dictionary automatically
         overrides the default dictionaries. This option is for people who want
         to use QuickTex for other types of files, but don't want to use it for
@@ -164,7 +164,7 @@ g:quicktex_excludechar
         Default Value: ['{', '(', '[']
 
         Characters in this list are excluded from being in keywords. After
-        every space typed, Quicktex will check if the characters between your
+        every space typed, QuickTex will check if the characters between your
         cursor and the last valid character is a keyword (whitespace is never
         considered a valid character). The default value allows keywords to
         still be executed even if they are adjacent to an opening parenthesis,
