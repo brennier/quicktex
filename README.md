@@ -9,11 +9,11 @@ Basically, QuickTex allows you to set keywords which activate arbitrary Vim code
 
 The main points are simply
 
-1. QuickTex has a separate namespace for math mode expansions. This will help you type math in Latex faster than you ever thought possible. My math mode dictionary has hundreds of keywords in it, which allow me to pratically type in English and have it converted into pure Latex in real-time.
+1. QuickTex has a separate namespace for math mode expansions. This will help you type math in Latex faster than you ever thought possible. My math mode dictionary has hundreds of keywords in it, which allow me to practically type in English and have it converted into pure Latex in real-time.
 
-2. QuickTex keywords are automatically triggered after a space. This allows you to have seamless expansions that don't slow you down and allow you to type keyword after keyword in rapid sucession.
+2. QuickTex keywords are automatically triggered after a space. This allows you to have seamless expansions that don't slow you down and allow you to type keyword after keyword in rapid succession.
 
-3. QuickTex is very fast. Since the code is written completely in Vimscript, QuickTex expands keywords instanteously. Programming similar functionality into a snippets plugin would be significantly slower, especially when you include the context dependence for math mode.
+3. QuickTex is very fast. Since the code is written completely in Vimscript, QuickTex expands keywords instantaneously. Programming similar functionality into a snippets plugin would be significantly slower, especially when you include the context dependence for math mode.
 
 #### Here's a little table that displays some of the main differences:
 | Features            | QuickTex          | UltiSnips         | Abbreviations     |
