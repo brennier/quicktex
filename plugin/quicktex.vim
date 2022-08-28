@@ -40,3 +40,16 @@ function! AssignExpander()
                     \' <C-r>=quicktex#expand#ExpandWord("'.&ft.'")<CR>')
     endif
 endfunction
+
+function! QuicktexJump()
+    " Find the next occurrence of <++>, delete it, and enter insert mode
+    if search('<+.*+>', 'z')
+        " Delete using the black hole register `_` instead of the default register
+        normal! "_df>
+        if col(".") == col("$") - 1
+            startinsert!
+        else
+            startinsert
+        endif
+    endif
+endfunction
