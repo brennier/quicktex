@@ -20,7 +20,7 @@ endif
 " Math Mode Keywords {{{
 
 let g:quicktex_math = {
-    \' ' : "\<ESC>:call QuicktexJump()\<CR>",
+    \' ' : "\<ESC>:call quicktex#DoJump()\<CR>",
 \'Section: Lowercase Greek Letters' : 'COMMENT',
     \'alpha'   : '\alpha ',
     \'ga'      : '\alpha ',
@@ -223,7 +223,7 @@ let g:quicktex_math = {
 " LaTeX Mode Keywords {{{
 
 let g:quicktex_tex = {
-    \' ' : "\<ESC>:call QuicktexJump()\<CR>",
+    \' ' : "\<ESC>:call quicktex#DoJump()\<CR>",
     \'m' : '\( <+++> \) <++>',
 \'Section: Environments' : 'COMMENT',
     \'env' : "\<ESC>Bvedi\\begin{\<ESC>pa}\<CR><+++>\<CR>\\end{\<ESC>pa}",

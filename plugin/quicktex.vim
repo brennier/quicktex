@@ -41,7 +41,7 @@ function! AssignExpander()
     endif
 endfunction
 
-function! QuicktexJump()
+function! quicktex#DoJump()
     " Find the next occurrence of <++>, delete it, and enter insert mode
     if search('<+.*+>', 'z')
         " Delete using the black hole register `_` instead of the default register
