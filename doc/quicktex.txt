@@ -170,7 +170,7 @@ g:quicktex_excludechar
         still be executed even if they are adjacent to an opening parenthesis,
         bracket, or brace.
 
-g:quicktex_always_tex
+g:quicktex_always_latex
         Type: Boolean
         Default Value: 1
 
