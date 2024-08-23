@@ -3,6 +3,17 @@ if !get(g:, 'quicktex_usedefault', 1)
     finish
 endif
 
+" Don't load this file if the user has already defined their own dictionaries
+if exists('g:quicktex_tex') && !exists('g:quicktex_math')
+    let g:quicktex_math = {}
+    finish
+elseif !exists('g:quicktex_tex') && exists('g:quicktex_math')
+    let g:quicktex_tex = {}
+    finish
+elseif exists('g:quicktex_tex') && exists('g:quicktex_math')
+    finish
+endif
+
 " Keyword mappings are simply a dictionary. Dictionaries are of the form
 " "quicktex_" and then the filetype. The result of a keyword is either a
 " literal string or a double quoted string, depending on what you want.
